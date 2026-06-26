@@ -399,6 +399,29 @@ footer .ft-red { color: var(--red); }
 
 
 
+
+/* ── BGM ── */
+#bgm-btn {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 200;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(191,11,11,.3);
+  background: rgba(255,255,255,.85);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.10);
+  transition: transform .2s, background .2s;
+}
+#bgm-btn:active { transform: scale(.92); }
+#bgm-btn.playing { background: rgba(191,11,11,.08); border-color: var(--red); }
 </style>
 </head>
 <body>
@@ -406,6 +429,50 @@ footer .ft-red { color: var(--red); }
 
 
 
+
+
+<!-- BGM -->
+<audio id="bgm" src="bgm.mp3" loop preload="auto"></audio>
+<button id="bgm-btn" title="BGM 켜기/끄기">🎵</button>
+
+<script>
+(function(){
+  var audio = document.getElementById('bgm');
+  var btn   = document.getElementById('bgm-btn');
+  var on    = false;
+
+  // 첫 터치/클릭 시 자동 재생 시작
+  function startBgm(){
+    if(on) return;
+    audio.volume = 0.45;
+    audio.play().then(function(){
+      on = true;
+      btn.textContent = '🎵';
+      btn.classList.add('playing');
+    }).catch(function(){});
+    document.removeEventListener('click', startBgm);
+    document.removeEventListener('touchstart', startBgm);
+  }
+  document.addEventListener('click', startBgm);
+  document.addEventListener('touchstart', startBgm);
+
+  // 버튼으로 토글
+  btn.addEventListener('click', function(e){
+    e.stopPropagation();
+    if(on){
+      audio.pause();
+      on = false;
+      btn.textContent = '🔇';
+      btn.classList.remove('playing');
+    } else {
+      audio.play();
+      on = true;
+      btn.textContent = '🎵';
+      btn.classList.add('playing');
+    }
+  });
+})();
+</script>
 
 <div class="wrap">
 
@@ -464,11 +531,11 @@ footer .ft-red { color: var(--red); }
     <p class="when">2026년 11월 1일<br>일요일 오후 1시</p>
     <p class="where"><b>앨리스몽드 서울</b>서울 용산구 소월로 302</p>
   </div>
-  <div class="map-ph" style="padding:0;overflow:hidden;border-radius:12px;">
+  <div style="border-radius:12px;overflow:hidden;margin:24px 0 16px;">
   <iframe
-    src="https://map.naver.com/v5/embed?type=address&query=서울+용산구+소월로+302&zoom=16"
+    src="https://www.openstreetmap.org/export/embed.html?bbox=126.983%2C37.536%2C126.993%2C37.545&layer=mapnik&marker=37.5407%2C126.9881"
     width="100%" height="200" style="border:0;display:block;"
-    allowfullscreen loading="lazy" title="앨리스몽드 서울 지도">
+    loading="lazy" title="앨리스몽드 서울 지도">
   </iframe>
 </div>
   <div class="map-btns">

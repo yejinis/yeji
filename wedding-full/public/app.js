@@ -88,7 +88,8 @@ async function uploadPhoto(file, nickname, contact){
 
 /* ---------- 갤러리 렌더 ---------- */
 async function loadGallery(){
-  const grid = $('#gallery-grid');
+  const grid = $('#upload-gallery-grid');
+  if (!grid) return; // 내 갤러리(gallery-grid)는 건드리지 않음
   try {
     const r = await fetch(`${API}/photos`);
     const { photos } = await r.json();

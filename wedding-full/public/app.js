@@ -172,24 +172,28 @@ document.addEventListener('DOMContentLoaded', () => {
   upBtn.addEventListener('click', async () => {
     const name = $('#photo-name').value.trim();
     const contact = $('#photo-contact').value.trim();
-    const file = fileInput.files[0];
+    const files = Array.from(fileInput.files);
     if (!name){ toast('이름을 입력해주세요'); return; }
-    if (!file){ toast('사진을 선택해주세요'); return; }
-    upBtn.disabled = true; upBtn.textContent = '올리는 중… ⏳';
-    try {
-      await uploadPhoto(file, name, contact);
-      toast('사진 고마워요! 💕');
-      $('#photo-name').value=''; $('#photo-contact').value=''; fileInput.value='';
-      $('#file-label').textContent = '사진 선택';
-      loadGallery();
-    } catch (e) {
-      toast(e.message || '업로드 실패');
-    } finally {
-      upBtn.disabled = false; upBtn.textContent = '사진 올리기 📸';
+    if (!files.length){ toast('사진을 선택해주세요'); return; }
+    upBtn.disabled = true; upBtn.textContent = `올리는 중… (0/${files.length}) ⏳`;
+    let success = 0;
+    for (let i = 0; i < files.length; i++) {
+      try {
+        await uploadPhoto(files[i], name, contact);
+        success++;
+        upBtn.textContent = `올리는 중… (${success}/${files.length}) ⏳`;
+      } catch (e) {
+        toast(`${files[i].name} 실패: ${e.message}`);
+      }
     }
+    toast(`${success}장 올렸어요! 💕`);
+    $('#photo-name').value=''; $('#photo-contact').value=''; fileInput.value='';
+    $('#file-label').textContent = '사진 선택';
+    upBtn.disabled = false; upBtn.textContent = '사진 올리기 📸';
   });
   fileInput.addEventListener('change', () => {
-    $('#file-label').textContent = fileInput.files[0] ? fileInput.files[0].name : '사진 선택';
+    const n = fileInput.files.length;
+    $('#file-label').textContent = n ? `${n}장 선택됨` : '사진 선택';
   });
 
   // ----- 방명록 작성 -----

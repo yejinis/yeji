@@ -487,9 +487,9 @@ footer .ft-red { color: var(--red); }
 }
 
 .venue-block { margin: 2px 0 14px; }
-.venue-line { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; }
-.venue-name { font-family: 'Casquare', sans-serif; font-size: 24px; font-weight: 600; color: var(--ink); letter-spacing: 0; }
-.venue-addr { font-size: 18px; color: var(--ink-mid); font-weight: 300; letter-spacing: 0; }
+.venue-line { display: flex; align-items: baseline; gap: 6px; margin-bottom: 6px; flex-wrap: nowrap; }
+.venue-name { font-family: 'Casquare', sans-serif; font-size: 24px; font-weight: 600; color: var(--ink); letter-spacing: -.03em; }
+.venue-addr { font-size: 18px; color: var(--ink-mid); font-weight: 300; letter-spacing: -.03em; }
 .venue-dt   { font-size: 15px; color: var(--ink-light); letter-spacing: .03em; margin-top: 2px; }
 
 .transport-wrap { display: flex; gap: 12px; margin-top: 16px; }
@@ -741,8 +741,8 @@ body { background: #FDF9F4; }
 <section class="sec reveal" style="padding-left:0;padding-right:0;">
   <div style="padding:0 32px;">
     <p class="sec-label">photo album</p>
-    <h2 class="sec-title" style="white-space:nowrap;font-size:clamp(20px,5.5vw,32px);">일일 포토그래퍼가 되어주세요!</h2>
-  <p style="font-size:clamp(20px, 5.5vw, 32px);color:var(--ink);margin:-6px 0 18px;letter-spacing:.02em;">베스트 포토그래퍼를 선정해 선물을 드릴게요!</p>
+    <h2 class="sec-title" style="white-space:nowrap;font-size:25px;">일일 포토그래퍼가 되어주세요!</h2>
+  <p style="font-size:17px;color:var(--ink);margin:-6px 0 18px;letter-spacing:.02em;">베스트 포토그래퍼를 선정해 선물을 드릴게요!</p>
   </div>
   <div style="padding:0 32px;" class="upload-area">
     <div class="field"><input id="photo-name" type="text" placeholder="이름 (또는 닉네임)" maxlength="20"></div>
@@ -753,7 +753,7 @@ body { background: #FDF9F4; }
     </div>
     <input id="photo-file" type="file" accept="image/*" multiple>
     <button class="up-submit" id="photo-upload-btn">사진 올리기</button>
-    <p class="up-hint" style="font-size:15px;letter-spacing:0;" style="font-size:15px;letter-spacing:0;">올려주신 사진은 신랑신부만 볼 수 있어요! 😉</p>
+    <p class="up-hint" style="font-size:13px;letter-spacing:0;color:var(--ink);">올려주신 사진은 신랑신부만 볼 수 있어요! 😉</p>
   </div>
   
 </section>

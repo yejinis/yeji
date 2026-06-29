@@ -616,7 +616,7 @@ body { background: #FDF9F4; }
 
 <!-- INTRO VIDEO -->
 <div id="intro">
-  <video id="intro-video" src="intro.mp4" autoplay playsinline></video>
+  <video id="intro-video" src="intro.mp4" muted playsinline preload="auto"></video>
   <button id="intro-skip">skip ›</button>
 </div>
 <script>
@@ -624,17 +624,33 @@ body { background: #FDF9F4; }
   document.body.style.overflow = 'hidden';
   var intro = document.getElementById('intro');
   var video = document.getElementById('intro-video');
+  var ended = false;
 
   function end(){
+    if(ended) return;
+    ended = true;
     intro.classList.add('done');
     document.body.style.overflow = '';
   }
 
   video.addEventListener('ended', end);
+  video.addEventListener('error', end);
   document.getElementById('intro-skip').addEventListener('click', end);
 
-  // 혹시 영상 못 불러오면 5초 후 자동 종료
-  setTimeout(function(){ if(!intro.classList.contains('done')) end(); }, 8000);
+  // 영상 로드되면 바로 재생 시도
+  function tryPlay(){
+    var p = video.play();
+    if(p && p.catch) p.catch(end); // 재생 실패 시 바로 종료
+  }
+
+  if(video.readyState >= 2) {
+    tryPlay();
+  } else {
+    video.addEventListener('canplay', tryPlay, { once: true });
+  }
+
+  // 영상 못 불러오면 8초 후 자동 종료
+  setTimeout(function(){ end(); }, 8000);
 })();
 </script>
 

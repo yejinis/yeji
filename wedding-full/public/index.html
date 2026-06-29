@@ -540,6 +540,26 @@ body { background: #FDF9F4; }
   
 }
 
+
+/* ===== INTRO VIDEO ===== */
+#intro {
+  position: fixed; inset: 0; z-index: 300;
+  background: #000;
+  display: flex; align-items: center; justify-content: center;
+}
+#intro.done { display: none; }
+#intro video {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+#intro-skip {
+  position: absolute; bottom: 36px; right: 24px;
+  background: rgba(255,255,255,.2);
+  border: 1px solid rgba(255,255,255,.4);
+  color: #fff; font-size: 13px; letter-spacing: .08em;
+  padding: 8px 16px; cursor: pointer;
+  backdrop-filter: blur(4px);
+}
 </style>
 </head>
 <body>
@@ -592,6 +612,30 @@ body { background: #FDF9F4; }
 })();
 </script>
 
+
+<!-- INTRO VIDEO -->
+<div id="intro">
+  <video id="intro-video" src="intro.mp4" autoplay muted playsinline></video>
+  <button id="intro-skip">skip ›</button>
+</div>
+<script>
+(function(){
+  document.body.style.overflow = 'hidden';
+  var intro = document.getElementById('intro');
+  var video = document.getElementById('intro-video');
+
+  function end(){
+    intro.classList.add('done');
+    document.body.style.overflow = '';
+  }
+
+  video.addEventListener('ended', end);
+  document.getElementById('intro-skip').addEventListener('click', end);
+
+  // 혹시 영상 못 불러오면 5초 후 자동 종료
+  setTimeout(function(){ if(!intro.classList.contains('done')) end(); }, 8000);
+})();
+</script>
 
 <div class="wrap">
 

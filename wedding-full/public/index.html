@@ -8,9 +8,21 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <style>
 @font-face {
+  font-family: 'Rafaella';
+  src: url('rafaella.otf') format('opentype');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
   font-family: 'OkMallang';
   src: url('Ok_Mallang_B.ttf') format('truetype');
   font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Rafaella';
+  src: url('rafaella.otf') format('opentype');
+  font-weight: 400;
   font-display: swap;
 }
 @font-face {
@@ -99,7 +111,7 @@ body { background: var(--white); color: var(--ink); font-family: var(--serif); f
   margin-top: 36px;
   font-size: clamp(52px, 14vw, 72px);
   font-weight: 700;
-  font-family: 'OkMallang', serif;
+  font-family: 'Rafaella', 'OkMallang', serif;
   line-height: 1.05;
   letter-spacing: -.01em;
   color: var(--ink);
@@ -501,8 +513,8 @@ footer .ft-red { color: var(--red); }
 .rsvp-toggle { display: flex; gap: 10px; margin-bottom: 18px; }
 .rsvp-toggle button { flex: 1; padding: 14px; border-radius: 0; font-family: 'Casquare', sans-serif; font-size: 16px; cursor: pointer; border: 1px solid var(--red); background: transparent; color: var(--red); transition: .2s; }
 .rsvp-toggle button.active { background: transparent; color: var(--red); }
-.rsvp-count { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; font-size: 15px; color: var(--ink); font-family: 'Casquare', sans-serif; }
-.rsvp-count input { width: 70px; padding: 10px 12px; border: 1.5px solid #e0d4c4; border-radius: 0; font-size: 15px; text-align: center; font-family: 'Casquare', sans-serif !important; }
+.rsvp-count { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; font-size: 15px; color: var(--ink-light); font-family: 'Casquare', sans-serif; }
+.rsvp-count input { width: 70px; padding: 10px 12px; border: 1.5px solid #e0d4c4; border-radius: 0; font-size: 15px; text-align: center; font-family: 'Casquare', sans-serif !important; color: var(--ink); }
 .rsvp-submit { width: 100%; padding: 15px; background: transparent; color: var(--red); border: 1px solid var(--red); border-radius: 0; font-family: 'Casquare', sans-serif; font-size: 17px; cursor: pointer; margin-top: 6px; }
 .rsvp-msg { font-size: 13px; color: var(--ink-light); text-align: center; margin: 14px 0 0; line-height: 1.7; }
 

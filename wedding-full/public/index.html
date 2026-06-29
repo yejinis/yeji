@@ -616,41 +616,62 @@ body { background: #FDF9F4; }
 
 <!-- INTRO VIDEO -->
 <div id="intro">
-  <video id="intro-video" src="intro.mp4" muted playsinline preload="auto"></video>
-  <button id="intro-skip">skip ›</button>
+  <video id="intro-video" src="intro.mp4" muted playsinline preload="auto" webkit-playsinline></video>
+  <button id="intro-skip" style="opacity:0;transition:opacity .4s;">skip ›</button>
 </div>
 <script>
 (function(){
   document.body.style.overflow = 'hidden';
-  var intro = document.getElementById('intro');
-  var video = document.getElementById('intro-video');
-  var ended = false;
+  var intro  = document.getElementById('intro');
+  var video  = document.getElementById('intro-video');
+  var skip   = document.getElementById('intro-skip');
+  var done   = false;
 
   function end(){
-    if(ended) return;
-    ended = true;
-    intro.classList.add('done');
-    document.body.style.overflow = '';
+    if(done) return;
+    done = true;
+    intro.style.transition = 'opacity .5s';
+    intro.style.opacity = '0';
+    setTimeout(function(){
+      intro.classList.add('done');
+      document.body.style.overflow = '';
+    }, 500);
   }
 
-  video.addEventListener('ended', end);
-  video.addEventListener('error', end);
-  document.getElementById('intro-skip').addEventListener('click', end);
+  // skip 버튼 항상 보이게 (1.5초 후)
+  setTimeout(function(){ skip.style.opacity = '1'; }, 1500);
+  skip.addEventListener('click', end);
 
-  // 영상 로드되면 바로 재생 시도
+  // ended / timeupdate 둘 다 체크 (사파리 ended 버그 대응)
+  video.addEventListener('ended', end);
+  video.addEventListener('timeupdate', function(){
+    if(video.duration && video.currentTime >= video.duration - 0.2) end();
+  });
+  video.addEventListener('error', function(){
+    // 재생 실패 시 skip 버튼 즉시 크게 강조
+    skip.style.opacity = '1';
+    skip.style.fontSize = '17px';
+    skip.style.padding = '14px 28px';
+  });
+
+  // 재생 시도
   function tryPlay(){
     var p = video.play();
-    if(p && p.catch) p.catch(end); // 재생 실패 시 바로 종료
+    if(p && p.catch){
+      p.catch(function(){
+        // 인앱브라우저 등 재생 불가 → skip 강조
+        skip.style.opacity = '1';
+        skip.style.fontSize = '17px';
+        skip.style.padding = '14px 28px';
+      });
+    }
   }
 
-  if(video.readyState >= 2) {
-    tryPlay();
-  } else {
-    video.addEventListener('canplay', tryPlay, { once: true });
-  }
+  if(video.readyState >= 2){ tryPlay(); }
+  else { video.addEventListener('canplay', tryPlay, { once: true }); }
 
-  // 영상 못 불러오면 8초 후 자동 종료
-  setTimeout(function(){ end(); }, 8000);
+  // 10초 후 강제 종료
+  setTimeout(function(){ end(); }, 10000);
 })();
 </script>
 

@@ -8,6 +8,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <style>
 @font-face {
+  font-family: 'SUIT';
+  src: url('SUIT-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
   font-family: 'Fraunces';
   src: url('Fraunces_72pt_Soft-SemiBold.ttf') format('truetype');
   font-weight: 600;
@@ -78,8 +84,8 @@
 :root {
   --white: #F8F3EC;
   --paper: #EFE8DC;
-  --red: #bf0b0b;
-  --red-soft: rgba(191,11,11,.08);
+  --red: #0d378b;
+  --red-soft: rgba(13,55,139,.08);
   --ink: #1a1a1a;
   --ink-mid: #555;
   --ink-light: #999;
@@ -176,7 +182,7 @@ body { background: var(--white); color: var(--ink); font-family: var(--serif); f
 .sec-title {
   font-size: clamp(32px, 8vw, 44px);
   font-weight: 400;
-  font-family: 'ParkDahyun', 'Casquare', sans-serif;
+  font-family: 'SUIT', 'Casquare', sans-serif;
   line-height: 1.15;
   margin-bottom: 36px;
 

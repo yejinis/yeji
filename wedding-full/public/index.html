@@ -8,9 +8,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <style>
 @font-face {
+  font-family: 'FrauncesItalic';
+  src: url('Fraunces_72pt_Soft-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
   font-family: 'SUIT';
   src: url('SUIT-Medium.otf') format('opentype');
   font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SUIT';
+  src: url('SUIT-Bold.otf') format('opentype');
+  font-weight: 700;
   font-display: swap;
 }
 @font-face {
@@ -173,7 +186,8 @@ body { background: var(--white); color: var(--ink); font-family: var(--serif); f
 /* ── SECTIONS ── */
 .sec { padding: 72px 32px; }
 .sec-label {
-  font-family: 'Casquare', sans-serif;
+  font-family: 'FrauncesItalic', 'Casquare', sans-serif;
+  font-style: italic;
   font-size: 15px;
   color: var(--red);
   letter-spacing: .02em;
@@ -181,7 +195,7 @@ body { background: var(--white); color: var(--ink); font-family: var(--serif); f
 }
 .sec-title {
   font-size: clamp(32px, 8vw, 44px);
-  font-weight: 400;
+  font-weight: 700;
   font-family: 'SUIT', 'Casquare', sans-serif;
   line-height: 1.15;
   margin-bottom: 36px;

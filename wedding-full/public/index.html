@@ -102,7 +102,7 @@
   --ink: #1a1a1a;
   --ink-mid: #555;
   --ink-light: #999;
-  --serif: 'Casquare', sans-serif;
+  --serif: 'SUIT', sans-serif;
   --display: 'Casquare', sans-serif;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -130,7 +130,7 @@ body { background: var(--white); color: var(--ink); font-family: var(--serif); f
   justify-content: space-between;
   align-items: flex-start;
   font-size: 11px;
-  font-family: 'Casquare', sans-serif;
+  font-family: 'SUIT', sans-serif;
   letter-spacing: .15em;
   text-transform: uppercase;
   color: var(--ink-light);
@@ -165,7 +165,7 @@ body { background: var(--white); color: var(--ink); font-family: var(--serif); f
 }
 .hero-date .venue {
   font-size: 19px;
-  font-family: 'Casquare', sans-serif;
+  font-family: 'SUIT', sans-serif;
   font-weight: 300;
   color: var(--ink);
   letter-spacing: .1em;
@@ -437,8 +437,8 @@ body { background: var(--white); color: var(--ink); font-family: var(--serif); f
 
 /* ── FOOTER ── */
 footer { padding: 28px 32px 80px; text-align: center; }
-footer .ft-hand { font-family: 'Casquare', sans-serif; font-size: 32px; color: var(--ink); line-height: 1.4; }
-footer .dday-big { font-family: 'Casquare', sans-serif; font-size: clamp(56px,16vw,90px); font-weight: 200; color: var(--ink); letter-spacing: -.02em; line-height: 1; margin-bottom: 12px; }
+footer .ft-hand { font-family: 'SUIT', sans-serif; font-size: 32px; color: var(--ink); line-height: 1.4; }
+footer .dday-big { font-family: 'SUIT', sans-serif; font-size: clamp(56px,16vw,90px); font-weight: 200; color: var(--ink); letter-spacing: -.02em; line-height: 1; margin-bottom: 12px; }
 footer .ft-date { font-size: 13px; color: var(--ink-light); letter-spacing: .1em; margin-top: 16px; }
 footer .ft-red { color: var(--red); }
 
@@ -540,7 +540,7 @@ footer .ft-red { color: var(--red); }
 
 .venue-block { margin: 2px 0 14px; }
 .venue-line { display: flex; align-items: baseline; gap: 6px; margin-bottom: 6px; flex-wrap: nowrap; }
-.venue-name { font-family: 'Casquare', sans-serif; font-size: 24px; font-weight: 600; color: var(--ink); letter-spacing: -.03em; }
+.venue-name { font-family: 'SUIT', sans-serif; font-size: 24px; font-weight: 600; color: var(--ink); letter-spacing: -.03em; }
 .venue-addr { font-size: 18px; color: var(--ink-mid); font-weight: 300; letter-spacing: -.03em; }
 .venue-dt   { font-size: 15px; color: var(--ink-light); letter-spacing: .03em; margin-top: 2px; }
 
@@ -551,11 +551,11 @@ footer .ft-red { color: var(--red); }
 
 /* RSVP */
 .rsvp-toggle { display: flex; gap: 10px; margin-bottom: 18px; }
-.rsvp-toggle button { flex: 1; padding: 14px; border-radius: 0; font-family: 'Casquare', sans-serif; font-size: 16px; cursor: pointer; border: 1px solid var(--red); background: transparent; color: var(--red); transition: .2s; }
+.rsvp-toggle button { flex: 1; padding: 14px; border-radius: 0; font-family: 'SUIT', sans-serif; font-size: 16px; cursor: pointer; border: 1px solid var(--red); background: transparent; color: var(--red); transition: .2s; }
 .rsvp-toggle button.active { background: transparent; color: var(--red); }
-.rsvp-count { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; font-size: 15px; color: var(--ink-light); font-family: 'Casquare', sans-serif; }
-.rsvp-count input { width: 70px; padding: 10px 12px; border: 1.5px solid #e0d4c4; border-radius: 0; font-size: 15px; text-align: center; font-family: 'Casquare', sans-serif !important; color: var(--ink); }
-.rsvp-submit { width: 100%; padding: 15px; background: transparent; color: var(--red); border: 1px solid var(--red); border-radius: 0; font-family: 'Casquare', sans-serif; font-size: 17px; cursor: pointer; margin-top: 6px; }
+.rsvp-count { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; font-size: 15px; color: var(--ink-light); font-family: 'SUIT', sans-serif; }
+.rsvp-count input { width: 70px; padding: 10px 12px; border: 1.5px solid #e0d4c4; border-radius: 0; font-size: 15px; text-align: center; font-family: 'SUIT', sans-serif !important; color: var(--ink); }
+.rsvp-submit { width: 100%; padding: 15px; background: transparent; color: var(--red); border: 1px solid var(--red); border-radius: 0; font-family: 'SUIT', sans-serif; font-size: 17px; cursor: pointer; margin-top: 6px; }
 .rsvp-msg { font-size: 13px; color: var(--ink-light); text-align: center; margin: 14px 0 0; line-height: 1.7; }
 
 
@@ -857,7 +857,7 @@ body { background: #FDF9F4; }
     <div class="field"><input id="gb-name" type="text" placeholder="이름" maxlength="12"></div>
     <div class="field"><input id="gb-msg" type="text" placeholder="사랑이 담긴 축하의 메시지" maxlength="100"></div>
     <div class="field"><input id="gb-pw" type="password" placeholder="비밀번호 (나중에 삭제할 때 필요해요)" maxlength="20"></div>
-    <button class="gb-submit" id="gb-submit"><span style="font-family:'Casquare',sans-serif;">메시지 전송!</span></button>
+    <button class="gb-submit" id="gb-submit"><span style="font-family:'SUIT',sans-serif;">메시지 전송!</span></button>
   </div>
   <div class="gb-list" id="gb-list"><div class="gb-empty">첫 번째 축하를 남겨주세요</div></div>
 </section>
@@ -909,7 +909,7 @@ body { background: #FDF9F4; }
       <span>인원</span>
       <input id="rsvp-count-input" type="number" value="1" min="1" max="10">
     </div>
-    <div class="field"><textarea id="rsvp-memo" rows="3" placeholder="전하실 말씀 (선택)" style="width:100%;padding:13px 15px;border:1.5px solid #e0d4c4;border-radius:10px;font-family:'Casquare',sans-serif;font-size:15px;resize:none;background:transparent;box-sizing:border-box;"></textarea></div>
+    <div class="field"><textarea id="rsvp-memo" rows="3" placeholder="전하실 말씀 (선택)" style="width:100%;padding:13px 15px;border:1.5px solid #e0d4c4;border-radius:10px;font-family:'SUIT',sans-serif;font-size:15px;resize:none;background:transparent;box-sizing:border-box;"></textarea></div>
     <button class="rsvp-submit" id="rsvp-submit">전 송</button>
   </div>
 </section>

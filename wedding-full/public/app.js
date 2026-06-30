@@ -48,16 +48,16 @@ async function toWebp(file, maxSize, quality){
 /* ============================================================
    사진 업로드 플로우
    ============================================================ */
-async function uploadPhoto(file, nickname, contact){
+async function uploadPhoto(file, nickname, contact, sessionId){
   // 1) 두 가지 버전 생성: 썸네일(가벼움) + 모달(크게)
   const thumbBlob = await toWebp(file, 500, 0.7);
   const fullBlob  = await toWebp(file, 1600, 0.82);
 
-  // 2) 서버에 임시 업로드 URL 요청
+  // 2) 서버에 임시 업로드 URL 요청 (같은 sessionId로 묶어서 한 폴더에 모음)
   const r = await fetch(`${API}/upload-url`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ nickname }),
+    body: JSON.stringify({ nickname, sessionId }),
   });
   if (!r.ok) throw new Error('업로드 URL 요청 실패');
   const { thumb, full, basePath } = await r.json();
@@ -176,10 +176,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!name){ toast('이름을 입력해주세요'); return; }
     if (!files.length){ toast('사진을 선택해주세요'); return; }
     upBtn.disabled = true; upBtn.textContent = `올리는 중… (0/${files.length}) ⏳`;
+    const sessionId = `${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
     let success = 0;
     for (let i = 0; i < files.length; i++) {
       try {
-        await uploadPhoto(files[i], name, contact);
+        await uploadPhoto(files[i], name, contact, sessionId);
         success++;
         upBtn.textContent = `올리는 중… (${success}/${files.length}) ⏳`;
       } catch (e) {

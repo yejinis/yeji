@@ -17,17 +17,24 @@ exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') return resp(405, { error: 'Method not allowed' });
 
   try {
-    const { nickname } = JSON.parse(event.body || '{}');
+    const { nickname, sessionId } = JSON.parse(event.body || '{}');
     if (!nickname) return resp(400, { error: '이름을 입력해주세요' });
 
-    // 경로: photos/{시간}_{랜덤}_{닉네임}/thumb.webp, /full.webp
-    // → 시간+랜덤으로 절대 겹치지 않고, 폴더 단위라 나중에 정리도 쉬움
+    // 경로: photos/{세션}_{닉네임}/{파일id}_thumb.webp, /{파일id}_full.webp
+    // → sessionId가 오면 그대로 재사용해서, 한 사람이 한 번에 올린
+    //   사진들은 같은 폴더에 모이게 함 (없으면 새로 발급)
     const safe = (s) => String(s).replace(/[^\w.-]/g, '_').slice(0, 40);
-    const ts = Date.now();
-    const rand = Math.random().toString(36).slice(2, 8);
-    const base = `photos/${ts}_${rand}_${safe(nickname)}`;
-    const thumbPath = `${base}/thumb.webp`;
-    const fullPath = `${base}/full.webp`;
+    let base;
+    if (sessionId && /^[\w.-]+$/.test(sessionId)) {
+      base = `photos/${safe(sessionId)}_${safe(nickname)}`;
+    } else {
+      const ts = Date.now();
+      const rand = Math.random().toString(36).slice(2, 8);
+      base = `photos/${ts}_${rand}_${safe(nickname)}`;
+    }
+    const fileId = Math.random().toString(36).slice(2, 8);
+    const thumbPath = `${base}/${fileId}_thumb.webp`;
+    const fullPath = `${base}/${fileId}_full.webp`;
 
     const [thumb, full] = await Promise.all([
       supabase.storage.from(BUCKET).createSignedUploadUrl(thumbPath),

@@ -900,10 +900,6 @@ body { background: #FDF9F4; }
   <p class="sec-label">RSVP</p>
   <h2 class="sec-title">참석 의사 전달</h2>
   <div style="margin-top:20px;">
-    <div class="rsvp-toggle">
-      <button id="rsvp-yes" class="active">참 석</button>
-      <button id="rsvp-no">불 참</button>
-    </div>
     <div class="field"><input id="rsvp-name" type="text" placeholder="성함" maxlength="20"></div>
     <div class="rsvp-count">
       <span>인원</span>
@@ -913,14 +909,6 @@ body { background: #FDF9F4; }
     <button class="rsvp-submit" id="rsvp-submit">전 송</button>
   </div>
 </section>
-<script>
-(function(){
-  var yes = document.getElementById('rsvp-yes');
-  var no  = document.getElementById('rsvp-no');
-  yes.addEventListener('click', function(){ yes.classList.add('active'); no.classList.remove('active'); });
-  no.addEventListener('click',  function(){ no.classList.add('active'); yes.classList.remove('active'); });
-})();
-</script>
 
 <div style="text-align:center;padding:8px 0;"><img src="ribbon.png" style="width:180px;opacity:.85;" alt=""></div>
 <!-- FOOTER -->

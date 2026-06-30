@@ -218,11 +218,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ----- 참석 의사 전달 (RSVP) -----
-  const rsvpYes = $('#rsvp-yes');
-  const rsvpNo  = $('#rsvp-no');
   $('#rsvp-submit').addEventListener('click', async () => {
     const name = $('#rsvp-name').value.trim();
-    const attending = rsvpYes.classList.contains('active');
     const count = parseInt($('#rsvp-count-input').value, 10) || 1;
     const memo = $('#rsvp-memo').value.trim();
     if (!name){ toast('성함을 입력해주세요'); return; }
@@ -232,10 +229,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const r = await fetch(`${API}/rsvp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, attending, count, memo }),
+        body: JSON.stringify({ name, count, memo }),
       });
       if (r.ok){
-        toast(`${name}님 ${attending ? '참석' : '불참'} 감사합니다! 🤍`);
+        toast(`${name}님 감사합니다! 🤍`);
         $('#rsvp-name').value=''; $('#rsvp-memo').value=''; $('#rsvp-count-input').value='1';
       } else {
         const { error } = await r.json().catch(()=>({}));

@@ -919,17 +919,6 @@ body { background: #FDF9F4; }
   var no  = document.getElementById('rsvp-no');
   yes.addEventListener('click', function(){ yes.classList.add('active'); no.classList.remove('active'); });
   no.addEventListener('click',  function(){ no.classList.add('active'); yes.classList.remove('active'); });
-  document.getElementById('rsvp-submit').addEventListener('click', function(){
-    var name = document.getElementById('rsvp-name').value.trim();
-    var attend = yes.classList.contains('active') ? '참석' : '불참';
-    var count = document.getElementById('rsvp-count-input').value;
-    var memo = document.getElementById('rsvp-memo').value.trim();
-    if(!name){ alert('성함을 입력해주세요'); return; }
-    alert(name + '님 ' + attend + ' 감사합니다! 🤍');
-    document.getElementById('rsvp-name').value = '';
-    document.getElementById('rsvp-memo').value = '';
-    document.getElementById('rsvp-count-input').value = 1;
-  });
 })();
 </script>
 

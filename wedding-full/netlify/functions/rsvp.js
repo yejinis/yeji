@@ -12,13 +12,12 @@ const supabase = createClient(
 exports.handler = async (event) => {
   try {
     if (event.httpMethod === 'POST') {
-      const { name, attending, count, memo } = JSON.parse(event.body || '{}');
+      const { name, count, memo } = JSON.parse(event.body || '{}');
       if (!name || typeof name !== 'string' || !name.trim()) {
         return resp(400, { error: '성함을 입력해주세요' });
       }
       const { error } = await supabase.from('rsvp').insert({
         name: name.trim().slice(0, 20),
-        attending: !!attending,
         guest_count: Math.min(Math.max(parseInt(count, 10) || 1, 1), 10),
         memo: (memo || '').toString().trim().slice(0, 300),
       });

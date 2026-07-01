@@ -27,6 +27,12 @@
   font-display: swap;
 }
 @font-face {
+  font-family: 'Urbanist';
+  src: url('Urbanist-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
   font-family: 'Fraunces';
   src: url('Fraunces_72pt_Soft-SemiBold.ttf') format('truetype');
   font-weight: 600;
@@ -107,7 +113,7 @@
 }
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html { scroll-behavior: smooth; }
-body { background: var(--white); color: var(--ink); font-family: var(--serif); font-weight: 300; line-height: 1.9; overflow-x: hidden; }
+body { background: var(--white); color: var(--ink); font-family: var(--serif); font-weight: 300; line-height: 1.9; overflow-x: hidden; text-align: center; }
 .wrap { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"); }
 .wrap { max-width: 460px; margin: 0 auto; }
 
@@ -144,24 +150,35 @@ body { background: var(--white); color: var(--ink); font-family: var(--serif); f
 }
 .hero-photo img { width: 100%; display: block; filter: drop-shadow(0 8px 20px rgba(0,0,0,.13)); }
 .hero-photo span { font-size: 12px; color: var(--ink-light); letter-spacing: .1em; }
+.hero-sub {
+  margin-top: 28px;
+  font-size: 14px;
+  color: var(--ink-mid);
+  line-height: 1.9;
+  letter-spacing: .02em;
+  text-align: center;
+}
 .hero-names {
-  margin-top: 36px;
-  font-size: clamp(52px, 14vw, 72px);
-  font-weight: 600;
-  font-family: 'Fraunces', serif;
-  line-height: 1.15;
+  margin-top: 20px;
+  font-size: clamp(32px, 8.5vw, 48px);
+  font-weight: 500;
+  font-family: 'Urbanist', sans-serif;
+  line-height: 1.2;
   letter-spacing: -.01em;
   color: var(--ink);
+  text-align: center;
+  white-space: nowrap;
 }
-.hero-names .amp { color: #7A1E1E; display: block; font-size: .45em; margin-left: calc(4.5em + 35px); margin-top: calc(.4em + 5px); }
-.hero-names .name-yeji { display: block; margin-left: calc(3.6em - 5px); }
-.hero-names .name-dongsoo { display: block; margin-left: 15px; }
+.hero-names .amp { color: var(--ink); font-size: 1em; display: inline; margin: 0 0.15em; }
+.hero-names .name-yeji { display: inline; }
+.hero-names .name-dongsoo { display: inline; }
 .hero-date {
-  margin-top: auto;
-  padding: 28px 0 44px;
+  margin-top: 16px;
+  padding: 12px 0 44px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
+  gap: 8px;
 }
 .hero-date .venue {
   font-size: 19px;
@@ -169,7 +186,7 @@ body { background: var(--white); color: var(--ink); font-family: var(--serif); f
   font-weight: 300;
   color: var(--ink);
   letter-spacing: .1em;
-  text-align: left;
+  text-align: center;
 }
 .hero-date .date-time {
   font-size: 19px;
@@ -177,7 +194,7 @@ body { background: var(--white); color: var(--ink); font-family: var(--serif); f
   letter-spacing: .02em;
   color: var(--ink);
   line-height: 1.6;
-  text-align: right;
+  text-align: center;
 }
 
 /* red line accent */
@@ -215,7 +232,7 @@ body { background: var(--white); color: var(--ink); font-family: var(--serif); f
   border-top: 1px solid #ddd4c4;
   border-bottom: 1px solid #ddd4c4;
   padding: 16px 0;
-  text-align: left;
+  text-align: center;
 }
 .parents span { color: var(--ink-mid); }
 .parents span { color: var(--ink); }
@@ -538,8 +555,8 @@ footer .ft-red { color: var(--red); }
   color: rgba(0,0,0,.4); font-size: 13px; letter-spacing: .1em;
 }
 
-.venue-block { margin: 2px 0 14px; }
-.venue-line { display: flex; align-items: baseline; gap: 6px; margin-bottom: 6px; flex-wrap: nowrap; }
+.venue-block { margin: 2px 0 14px; text-align: center; }
+.venue-line { display: flex; align-items: baseline; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; justify-content: center; }
 .venue-name { font-family: 'SUIT', sans-serif; font-size: 24px; font-weight: 600; color: var(--ink); letter-spacing: -.03em; }
 .venue-addr { font-size: 18px; color: var(--ink-mid); font-weight: 300; letter-spacing: -.03em; }
 .venue-dt   { font-size: 15px; color: var(--ink-light); letter-spacing: .03em; margin-top: 2px; }
@@ -714,14 +731,14 @@ body { background: #FDF9F4; }
   <div class="hero-photo">
     <img src="main_photo.png" alt="dongsoo & yeji">
   </div>
+  <p class="hero-sub">동수와 예지의<br>특별한 결혼식에 당신을 초대합니다.</p>
   <h1 class="hero-names">
     <span class="name-dongsoo">Dongsoo</span>
     <span class="amp">&amp;</span>
     <span class="name-yeji">Yeji</span>
   </h1>
   <div class="hero-date">
-    <div class="venue">📍 앨리스몽드</div>
-    <div class="date-time">11월 1일(일)<br>오후 1시</div>
+    <div class="date-time">2026.11.01</div>
   </div>
 </section>
 

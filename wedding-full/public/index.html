@@ -606,6 +606,25 @@ body { background: #FDF9F4; }
   padding: 8px 16px; cursor: pointer;
   backdrop-filter: blur(4px);
 }
+#intro-touch {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  color: #fff; text-align: center;
+  font-family: 'SUIT', sans-serif;
+  letter-spacing: .12em;
+  font-size: 14px;
+  gap: 16px;
+  cursor: pointer;
+}
+#intro-touch .touch-icon {
+  font-size: 32px;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .5; transform: scale(.92); }
+}
 </style>
 </head>
 <body>
@@ -662,6 +681,10 @@ body { background: #FDF9F4; }
 <!-- INTRO VIDEO -->
 <div id="intro">
   <video id="intro-video" src="intro2.mp4" muted playsinline webkit-playsinline x5-playsinline preload="auto" disableRemotePlayback></video>
+  <div id="intro-touch">
+    <div class="touch-icon">✦</div>
+    <div>화면을 터치해주세요</div>
+  </div>
   <button id="intro-skip" style="opacity:0;transition:opacity .4s;">skip ›</button>
 </div>
 <script>
@@ -670,6 +693,7 @@ body { background: #FDF9F4; }
   var intro  = document.getElementById('intro');
   var video  = document.getElementById('intro-video');
   var skip   = document.getElementById('intro-skip');
+  var touch  = document.getElementById('intro-touch');
   var done   = false;
 
   function end(){
@@ -683,37 +707,37 @@ body { background: #FDF9F4; }
     }, 500);
   }
 
-  skip.style.opacity = '1';
   skip.addEventListener('click', end);
-
   video.addEventListener('ended', end);
   video.addEventListener('timeupdate', function(){
     if(video.duration && video.currentTime >= video.duration - 0.2) end();
   });
+  video.addEventListener('error', end);
 
-  // 재생 실패 시 즉시 종료
-  video.addEventListener('error', function(){ end(); });
-
-  // 재생 시도
-  var playStarted = false;
-  function tryPlay(){
+  function startPlay(){
+    touch.style.display = 'none';
+    skip.style.opacity = '1';
     var p = video.play();
-    if(p && p.then){
-      p.then(function(){ playStarted = true; })
-       .catch(function(){ end(); }); // 인앱브라우저 재생 차단 시 즉시 skip
-    }
+    if(p && p.catch){ p.catch(end); }
   }
 
-  if(video.readyState >= 2){ tryPlay(); }
-  else { video.addEventListener('canplay', tryPlay, { once: true }); }
+  // 자동재생 시도 → 되면 touch 숨기고 바로 재생, 안 되면 터치 유도
+  var p = video.play();
+  if(p && p.then){
+    p.then(function(){
+      // 자동재생 성공
+      touch.style.display = 'none';
+      skip.style.opacity = '1';
+    }).catch(function(){
+      // 자동재생 실패 → 터치 대기
+      video.pause();
+      touch.style.display = 'flex';
+      intro.addEventListener('click', startPlay, { once: true });
+    });
+  }
 
-  // 3초 안에 영상 재생 안 되면 자동 종료
-  setTimeout(function(){
-    if(!playStarted || video.paused) end();
-  }, 3000);
-
-  // 최대 10초 후 강제 종료
-  setTimeout(function(){ end(); }, 10000);
+  // 최대 12초 강제 종료
+  setTimeout(function(){ end(); }, 12000);
 })();
 </script>
 

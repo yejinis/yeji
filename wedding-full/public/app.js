@@ -223,18 +223,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const name = $('#rsvp-name').value.trim();
     const count = parseInt($('#rsvp-count-input').value, 10) || 1;
     const memo = $('#rsvp-memo').value.trim();
+    const side = document.querySelector('.rsvp-side-btn.active')?.dataset.side;
+    const meal = document.querySelector('.rsvp-meal-btn.active')?.dataset.meal;
     if (!name){ toast('성함을 입력해주세요'); return; }
+    if (!side){ toast('신랑측 / 신부측을 선택해주세요'); return; }
+    if (!meal){ toast('식사 여부를 선택해주세요'); return; }
     const btn = $('#rsvp-submit');
     btn.disabled = true;
     try {
       const r = await fetch(`${API}/rsvp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, count, memo }),
+        body: JSON.stringify({ name, count, memo, side, meal }),
       });
       if (r.ok){
         toast(`${name}님 감사합니다! 🤍`);
         $('#rsvp-name').value=''; $('#rsvp-memo').value=''; $('#rsvp-count-input').value='1';
+        document.querySelectorAll('.rsvp-side-btn.active, .rsvp-meal-btn.active').forEach(b => b.classList.remove('active'));
       } else {
         const { error } = await r.json().catch(()=>({}));
         toast(error || '전송 실패');

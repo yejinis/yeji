@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<!-- 카카오톡 공유하기용 SDK — 아래 YOUR_KAKAO_JS_KEY를 발급받은 JavaScript 키로 교체해주세요 -->
-<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"></script>
-<script>
-  if (window.Kakao && !Kakao.isInitialized()) {
-    Kakao.init('558cd338dbe783bb822e246241ca1401');
-  }
-</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Dongsoo & Yeji</title>
+
+<!-- Open Graph — 카카오톡/문자/SNS 링크 공유 시 썸네일·제목·설명 -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="동수 ♥ 예지 결혼합니다">
+<meta property="og:description" content="2026.11.01 (일) 오후 1시 · 앨리스몽드 서울">
+<meta property="og:image" content="https://yeji-dongsoo-1101.netlify.app/main_photo.png">
+<meta property="og:url" content="https://yeji-dongsoo-1101.netlify.app">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <style>
@@ -228,8 +229,9 @@ body { background: #deb8b8; color: var(--ink); font-family: var(--serif); font-w
 .pol-item:nth-child(2n) .pol-card { transform: rotate(2deg); }
 .pol-card img {
   width: 100%;
-  aspect-ratio: 3/4;
+  aspect-ratio: 1/1;
   object-fit: cover;
+  object-position: center 25%;
   display: block;
 }
 .pol-nav {
@@ -645,7 +647,7 @@ button:active:not(:disabled),
   column-count: 2;
   column-gap: 20px;
   column-fill: balance;
-  padding: 12px 4px 24px;
+  padding: 28px 4px 24px;
 }
 .gb-empty { column-span: all; font-size: 14px; color: var(--ink-light); text-align: center; padding: 30px 0; }
 
@@ -657,7 +659,7 @@ button:active:not(:disabled),
   break-inside: avoid;
   -webkit-column-break-inside: avoid;
   page-break-inside: avoid;
-  margin-bottom: 20px;
+  margin: 16px 0 20px;
   display: inline-block;
   width: 100%;
   vertical-align: top;
@@ -1412,8 +1414,8 @@ body { background: #FDF9F4; }
   <div class="dday-big" id="dday-footer">D-</div>
   <p class="ft-date">2026 · 11 · 01 · <span class="ft-red">동수 &amp; 예지</span></p>
   <div class="share-row">
-    <button class="share-btn kakao" id="share-kakao">
-      <span>💬</span> 카카오톡 공유
+    <button class="share-btn kakao" id="share-native">
+      <span>💬</span> 공유하기
     </button>
     <button class="share-btn copy" id="share-copy">
       <span>🔗</span> 링크 복사
@@ -1623,22 +1625,22 @@ body { background: #FDF9F4; }
     }
   });
 
-  // 카카오톡 공유 / 링크 복사
-  var shareKakao = document.getElementById('share-kakao');
+  // 공유하기 (기기 기본 공유 시트) / 링크 복사
+  var shareNative = document.getElementById('share-native');
   var shareCopy = document.getElementById('share-copy');
-  if (shareKakao) shareKakao.addEventListener('click', function(){
-    if (window.Kakao && window.Kakao.Share) {
-      window.Kakao.Share.sendDefault({
-        objectType: 'feed',
-        content: {
-          title: '동수 ♥ 예지 결혼합니다',
-          description: '2026.11.01 앨리스몽드',
-          imageUrl: location.origin + '/main_photo.png',
-          link: { mobileWebUrl: location.href, webUrl: location.href }
-        }
-      });
+  if (shareNative) shareNative.addEventListener('click', function(){
+    if (navigator.share) {
+      navigator.share({
+        title: '동수 ♥ 예지 결혼합니다',
+        text: '2026.11.01 앨리스몽드',
+        url: location.href
+      }).catch(function(){ /* 사용자가 취소한 경우 등 */ });
     } else {
-      alert('카카오톡 공유 기능을 준비 중이에요');
+      navigator.clipboard.writeText(location.href).then(function(){
+        alert('이 브라우저는 공유 시트를 지원하지 않아 링크를 복사했어요!');
+      }).catch(function(){
+        alert('링크: ' + location.href);
+      });
     }
   });
   if (shareCopy) shareCopy.addEventListener('click', function(){

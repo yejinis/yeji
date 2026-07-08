@@ -588,12 +588,10 @@ button:active:not(:disabled),
   font-family: var(--serif);
   font-size: 14px;
   letter-spacing: .06em;
-  border: 1px solid var(--ink);
-  color: var(--ink);
+  border: 1px solid var(--red);
+  color: var(--red);
   transition: background .2s, color .2s;
 }
-.map-btns a:first-child { background: var(--ink); color: var(--white); }
-.map-btns a:last-child:active { background: var(--ink); color: var(--white); }
 .dday-row { margin-top: 36px; text-align: center; }
 .dday-row .num {
   font-size: clamp(48px, 13vw, 64px);
@@ -646,6 +644,7 @@ button:active:not(:disabled),
 .gb-list {
   column-count: 2;
   column-gap: 20px;
+  column-fill: balance;
   padding: 12px 4px 24px;
 }
 .gb-empty { column-span: all; font-size: 14px; color: var(--ink-light); text-align: center; padding: 30px 0; }
@@ -655,12 +654,13 @@ button:active:not(:disabled),
   padding: 28px 16px 20px;
   border-radius: 2px;
   box-shadow: 2px 4px 12px rgba(0,0,0,.10), 0 1px 3px rgba(0,0,0,.07);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
   break-inside: avoid;
   -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
   margin-bottom: 20px;
+  display: inline-block;
+  width: 100%;
+  vertical-align: top;
 }
 /* 파스텔 4색 랜덤 */
 .gb-item[data-color="0"] { background: #FFF9E6; }
@@ -698,9 +698,9 @@ button:active:not(:disabled),
   transform: translateX(-50%) rotate(-1deg);
 }
 
-.gb-item .nm { font-size: 14px; font-weight: 600; color: var(--ink); }
-.gb-item .ms { font-size: 13px; color: #444; line-height: 1.75; flex: 1; word-break: break-all; }
-.gb-item .dt { font-size: 10px; color: #aaa; }
+.gb-item .nm { font-size: 14px; font-weight: 600; color: var(--ink); display: block; margin-bottom: 8px; }
+.gb-item .ms { font-size: 13px; color: #444; line-height: 1.75; word-break: break-all; display: block; margin-bottom: 8px; }
+.gb-item .dt { font-size: 10px; color: #aaa; display: block; }
 .gb-item .gb-del { position: absolute; top: 8px; right: 10px; background: none; border: none; color: #bbb; font-size: 13px; cursor: pointer; }
 
 /* ── ACCOUNT ── */
@@ -1066,11 +1066,7 @@ body { background: #FDF9F4; }
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-top">
-    <span>Wedding Invitation</span>
-    <span>2026</span>
-  </div>
-  <div class="hero-photo">
+  <div class="hero-photo" style="margin-top:52px;">
     <img src="main_photo.png" alt="dongsoo & yeji">
   </div>
   <p class="hero-sub">동수와 예지의<br>새로운 시작을 함께해 주세요.</p>
@@ -1125,24 +1121,14 @@ body { background: #FDF9F4; }
 
   <div style="border-radius:12px;overflow:hidden;margin:14px 0 10px;">
     <div id="daumRoughmapContainer1783520667669" class="root_daum_roughmap root_daum_roughmap_landing"></div>
-    <script>
-      (function(){
-        var s = document.createElement('script');
-        s.charset = 'UTF-8';
-        s.className = 'daum_roughmap_loader_script';
-        s.src = 'https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js';
-        s.onload = function(){
-          try {
-            new daum.roughmap.Lander({
-              "timestamp" : "1783520667669",
-              "key" : "qvcvvxuqfmz",
-              "mapWidth" : "460",
-              "mapHeight" : "300"
-            }).render();
-          } catch(e) { /* 지도 로드 실패 시 조용히 무시 */ }
-        };
-        document.currentScript.parentNode.appendChild(s);
-      })();
+    <script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
+    <script charset="UTF-8">
+      new daum.roughmap.Lander({
+        "timestamp" : "1783520667669",
+        "key" : "qvcvvxuqfmz",
+        "mapWidth" : "460",
+        "mapHeight" : "300"
+      }).render();
     </script>
   </div>
 

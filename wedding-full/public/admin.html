@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>사진첩 관리</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:-apple-system,'SUIT',sans-serif; background:#faf7f2; color:#1a1a1a; min-height:100vh; }
+
+  /* 잠금 화면 */
+  #lock { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; padding:24px; }
+  #lock input { width:100%; max-width:280px; padding:14px 16px; border:1.5px solid #ddd; border-radius:8px; font-size:16px; text-align:center; }
+  #lock button { width:100%; max-width:280px; padding:14px; border:none; border-radius:8px; background:#0d378b; color:#fff; font-size:15px; cursor:pointer; }
+  #lock p.err { color:#c0392b; font-size:13px; }
+  #lock h1 { font-size:18px; margin-bottom:8px; }
+
+  /* 본문 */
+  #app { display:none; max-width:900px; margin:0 auto; padding:24px 16px 60px; }
+  header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px; }
+  header h1 { font-size:20px; }
+  .toolbar { display:flex; gap:8px; }
+  .toolbar button { padding:10px 16px; border:1.5px solid #0d378b; background:#fff; color:#0d378b; border-radius:8px; font-size:13px; cursor:pointer; }
+  .toolbar button:active { background:#0d378b; color:#fff; }
+  #count { font-size:13px; color:#888; margin-bottom:16px; }
+
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); gap:12px; }
+  .card { position:relative; border-radius:10px; overflow:hidden; background:#eee; aspect-ratio:1; cursor:pointer; }
+  .card img { width:100%; height:100%; object-fit:cover; display:block; }
+  .card .badge { position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,.55); color:#fff; font-size:11px; padding:5px 8px; }
+  .card input[type="checkbox"] { position:absolute; top:6px; left:6px; width:18px; height:18px; z-index:2; }
+
+  .empty, .loading { text-align:center; padding:60px 0; color:#999; font-size:14px; }
+
+  /* 모달 */
+  #modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.9); z-index:100; align-items:center; justify-content:center; flex-direction:column; gap:14px; padding:20px; }
+  #modal.open { display:flex; }
+  #modal img { max-width:100%; max-height:70vh; border-radius:8px; }
+  #modal .info { color:#fff; font-size:13px; text-align:center; }
+  #modal .actions { display:flex; gap:10px; }
+  #modal .actions button, #modal .actions a { padding:10px 20px; border-radius:8px; border:none; background:#0d378b; color:#fff; font-size:13px; cursor:pointer; text-decoration:none; }
+  #modal-close { position:absolute; top:20px; right:20px; background:none; border:none; color:#fff; font-size:24px; cursor:pointer; }
+</style>
+</head>
+<body>
+
+<!-- 잠금 화면 -->
+<div id="lock">
+  <h1>🔒 사진첩 관리</h1>
+  <input id="lock-pw" type="password" placeholder="비밀번호" autocomplete="off">
+  <button id="lock-btn">입장하기</button>
+  <p class="err" id="lock-err"></p>
+</div>
+
+<!-- 본문 -->
+<div id="app">
+  <header>
+    <h1>📸 하객 사진첩</h1>
+    <div class="toolbar">
+      <button id="select-all-btn">전체 선택</button>
+      <button id="download-btn">선택 다운로드</button>
+      <button id="refresh-btn">새로고침</button>
+    </div>
+  </header>
+  <p id="count"></p>
+  <div class="grid" id="grid"><div class="loading">불러오는 중...</div></div>
+</div>
+
+<!-- 확대 모달 -->
+<div id="modal">
+  <button id="modal-close">✕</button>
+  <img id="modal-img" src="" alt="">
+  <p class="info" id="modal-info"></p>
+  <div class="actions">
+    <a id="modal-download" href="#" download>다운로드</a>
+  </div>
+</div>
+
+<script>
+const API = '/.netlify/functions';
+// 여기서 관리자 비밀번호를 바꿀 수 있어요
+const ADMIN_PW = 'dsyj1101';
+
+const lock = document.getElementById('lock');
+const app = document.getElementById('app');
+const lockPw = document.getElementById('lock-pw');
+const lockBtn = document.getElementById('lock-btn');
+const lockErr = document.getElementById('lock-err');
+
+function tryUnlock(){
+  if (lockPw.value === ADMIN_PW) {
+    sessionStorage.setItem('admin_ok', '1');
+    lock.style.display = 'none';
+    app.style.display = 'block';
+    loadPhotos();
+  } else {
+    lockErr.textContent = '비밀번호가 틀렸어요';
+  }
+}
+lockBtn.addEventListener('click', tryUnlock);
+lockPw.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+
+if (sessionStorage.getItem('admin_ok') === '1') {
+  lock.style.display = 'none';
+  app.style.display = 'block';
+  loadPhotos();
+}
+
+let photos = [];
+
+async function loadPhotos(){
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '<div class="loading">불러오는 중...</div>';
+  try {
+    const r = await fetch(`${API}/photos`);
+    const data = await r.json();
+    photos = data.photos || [];
+    renderGrid();
+  } catch(e) {
+    grid.innerHTML = '<div class="empty">불러오지 못했어요 😢</div>';
+  }
+}
+
+function renderGrid(){
+  const grid = document.getElementById('grid');
+  const count = document.getElementById('count');
+  count.textContent = `총 ${photos.length}장`;
+  if (!photos.length) {
+    grid.innerHTML = '<div class="empty">아직 업로드된 사진이 없어요</div>';
+    return;
+  }
+  grid.innerHTML = photos.map((p, i) => `
+    <div class="card" data-idx="${i}">
+      <input type="checkbox" class="pick" data-idx="${i}" onclick="event.stopPropagation()">
+      <img src="${esc(p.thumb_url)}" alt="${esc(p.uploader_name)}" loading="lazy">
+      <div class="badge">${esc(p.uploader_name)}</div>
+    </div>
+  `).join('');
+  grid.querySelectorAll('.card').forEach(c => {
+    c.addEventListener('click', () => openModal(parseInt(c.dataset.idx)));
+  });
+}
+
+function esc(s){ return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function openModal(idx){
+  const p = photos[idx];
+  document.getElementById('modal-img').src = p.full_url;
+  document.getElementById('modal-info').textContent = `${p.uploader_name} · ${new Date(p.created_at).toLocaleString('ko-KR')}`;
+  document.getElementById('modal-download').href = p.full_url;
+  document.getElementById('modal-download').setAttribute('download', `${p.uploader_name}_${idx+1}.webp`);
+  document.getElementById('modal').classList.add('open');
+}
+document.getElementById('modal-close').addEventListener('click', () => document.getElementById('modal').classList.remove('open'));
+document.getElementById('modal').addEventListener('click', e => { if (e.target.id === 'modal') document.getElementById('modal').classList.remove('open'); });
+
+document.getElementById('refresh-btn').addEventListener('click', loadPhotos);
+
+document.getElementById('select-all-btn').addEventListener('click', () => {
+  const boxes = document.querySelectorAll('.pick');
+  const allChecked = [...boxes].every(b => b.checked);
+  boxes.forEach(b => b.checked = !allChecked);
+});
+
+document.getElementById('download-btn').addEventListener('click', async () => {
+  const picked = [...document.querySelectorAll('.pick:checked')].map(b => parseInt(b.dataset.idx));
+  if (!picked.length) { alert('다운로드할 사진을 선택해주세요 (사진 왼쪽 위 체크박스)'); return; }
+  for (const idx of picked) {
+    const p = photos[idx];
+    const a = document.createElement('a');
+    a.href = p.full_url;
+    a.download = `${p.uploader_name}_${idx+1}.webp`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    await new Promise(res => setTimeout(res, 300)); // 브라우저 다운로드 제한 방지
+  }
+});
+</script>
+</body>
+</html>

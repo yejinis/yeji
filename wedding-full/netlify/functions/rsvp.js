@@ -12,7 +12,7 @@ const supabase = createClient(
 exports.handler = async (event) => {
   try {
     if (event.httpMethod === 'POST') {
-      const { name, count, memo } = JSON.parse(event.body || '{}');
+      const { name, count, memo, side, meal } = JSON.parse(event.body || '{}');
       if (!name || typeof name !== 'string' || !name.trim()) {
         return resp(400, { error: '성함을 입력해주세요' });
       }
@@ -20,6 +20,8 @@ exports.handler = async (event) => {
         name: name.trim().slice(0, 20),
         guest_count: Math.min(Math.max(parseInt(count, 10) || 1, 1), 10),
         memo: (memo || '').toString().trim().slice(0, 300),
+        side: side === 'bride' ? 'bride' : 'groom',
+        meal: meal === 'no' ? 'no' : 'yes',
       });
       if (error) throw error;
       return resp(200, { ok: true });

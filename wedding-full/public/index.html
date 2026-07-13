@@ -9,9 +9,10 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="동수 ♥ 예지 결혼합니다">
 <meta property="og:description" content="2026.11.01 (일) 오후 1시 · 앨리스몽드 서울">
-<meta property="og:image" content="https://yeji-dongsoo-1101.netlify.app/main_photo.png">
+<meta property="og:image" content="https://yeji-dongsoo-1101.netlify.app/og_image.jpg">
 <meta property="og:url" content="https://yeji-dongsoo-1101.netlify.app">
 <meta name="twitter:card" content="summary_large_image">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <style>
@@ -229,9 +230,8 @@ body { background: #deb8b8; color: var(--ink); font-family: var(--serif); font-w
 .pol-item:nth-child(2n) .pol-card { transform: rotate(2deg); }
 .pol-card img {
   width: 100%;
-  aspect-ratio: 1/1;
+  aspect-ratio: 3/4;
   object-fit: cover;
-  object-position: center 25%;
   display: block;
 }
 .pol-nav {
@@ -380,6 +380,17 @@ button:active:not(:disabled),
 .contact-person:last-child { border-bottom: none; }
 .contact-person-info { display: flex; flex-direction: column; align-items: center; gap: 2px; }
 .contact-relation { font-size: 12px; color: var(--ink-light); font-family: 'SUIT', sans-serif; }
+.acc-copy-btn {
+  margin-top: 6px;
+  padding: 5px 14px;
+  font-size: 11px;
+  border: 1px solid var(--red);
+  color: var(--red);
+  background: transparent;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: 'SUIT', sans-serif;
+}
 .contact-name { font-size: 15px; color: var(--ink); font-weight: 600; font-family: 'SUIT', sans-serif; }
 .contact-icons { display: flex; gap: 10px; margin-top: 6px; }
 .contact-icons a {
@@ -590,10 +601,12 @@ button:active:not(:disabled),
   font-family: var(--serif);
   font-size: 14px;
   letter-spacing: .06em;
-  border: 1px solid var(--red);
-  color: var(--red);
+  border: 1px solid var(--ink);
+  color: var(--ink);
   transition: background .2s, color .2s;
 }
+.map-btns a:first-child { background: var(--ink); color: var(--white); }
+.map-btns a:last-child:active { background: var(--ink); color: var(--white); }
 .dday-row { margin-top: 36px; text-align: center; }
 .dday-row .num {
   font-size: clamp(48px, 13vw, 64px);
@@ -646,8 +659,7 @@ button:active:not(:disabled),
 .gb-list {
   column-count: 2;
   column-gap: 20px;
-  column-fill: balance;
-  padding: 28px 4px 24px;
+  padding: 12px 4px 24px;
 }
 .gb-empty { column-span: all; font-size: 14px; color: var(--ink-light); text-align: center; padding: 30px 0; }
 
@@ -656,13 +668,12 @@ button:active:not(:disabled),
   padding: 28px 16px 20px;
   border-radius: 2px;
   box-shadow: 2px 4px 12px rgba(0,0,0,.10), 0 1px 3px rgba(0,0,0,.07);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   break-inside: avoid;
   -webkit-column-break-inside: avoid;
-  page-break-inside: avoid;
-  margin: 16px 0 20px;
-  display: inline-block;
-  width: 100%;
-  vertical-align: top;
+  margin-bottom: 20px;
 }
 /* 파스텔 4색 랜덤 */
 .gb-item[data-color="0"] { background: #FFF9E6; }
@@ -700,9 +711,9 @@ button:active:not(:disabled),
   transform: translateX(-50%) rotate(-1deg);
 }
 
-.gb-item .nm { font-size: 14px; font-weight: 600; color: var(--ink); display: block; margin-bottom: 8px; }
-.gb-item .ms { font-size: 13px; color: #444; line-height: 1.75; word-break: break-all; display: block; margin-bottom: 8px; }
-.gb-item .dt { font-size: 10px; color: #aaa; display: block; }
+.gb-item .nm { font-size: 14px; font-weight: 600; color: var(--ink); }
+.gb-item .ms { font-size: 13px; color: #444; line-height: 1.75; flex: 1; word-break: break-all; }
+.gb-item .dt { font-size: 10px; color: #aaa; }
 .gb-item .gb-del { position: absolute; top: 8px; right: 10px; background: none; border: none; color: #bbb; font-size: 13px; cursor: pointer; }
 
 /* ── ACCOUNT ── */
@@ -971,16 +982,15 @@ body { background: #FDF9F4; }
   function startBgm(){
     if(on) return;
     audio.volume = 0.45;
+    audio.muted = false;
     audio.play().then(function(){
       on = true;
       btn.textContent = '🎵';
       btn.classList.add('playing');
     }).catch(function(){});
-    document.removeEventListener('click', startBgm);
-    document.removeEventListener('touchstart', startBgm);
   }
-  document.addEventListener('click', startBgm);
-  document.addEventListener('touchstart', startBgm);
+  document.addEventListener('click', startBgm, { once: true });
+  document.addEventListener('touchend', startBgm, { once: true });
 
   // 버튼으로 토글
   btn.addEventListener('click', function(e){
@@ -991,10 +1001,12 @@ body { background: #FDF9F4; }
       btn.textContent = '🔇';
       btn.classList.remove('playing');
     } else {
-      audio.play();
-      on = true;
-      btn.textContent = '🎵';
-      btn.classList.add('playing');
+      audio.muted = false;
+      audio.play().then(function(){
+        on = true;
+        btn.textContent = '🎵';
+        btn.classList.add('playing');
+      }).catch(function(){});
     }
   });
 })();
@@ -1068,7 +1080,11 @@ body { background: #FDF9F4; }
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-photo" style="margin-top:52px;">
+  <div class="hero-top">
+    <span>Wedding Invitation</span>
+    <span>2026</span>
+  </div>
+  <div class="hero-photo">
     <img src="main_photo.png" alt="dongsoo & yeji">
   </div>
   <p class="hero-sub">동수와 예지의<br>새로운 시작을 함께해 주세요.</p>
@@ -1123,14 +1139,24 @@ body { background: #FDF9F4; }
 
   <div style="border-radius:12px;overflow:hidden;margin:14px 0 10px;">
     <div id="daumRoughmapContainer1783520667669" class="root_daum_roughmap root_daum_roughmap_landing"></div>
-    <script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
-    <script charset="UTF-8">
-      new daum.roughmap.Lander({
-        "timestamp" : "1783520667669",
-        "key" : "qvcvvxuqfmz",
-        "mapWidth" : "460",
-        "mapHeight" : "300"
-      }).render();
+    <script>
+      (function(){
+        var s = document.createElement('script');
+        s.charset = 'UTF-8';
+        s.className = 'daum_roughmap_loader_script';
+        s.src = 'https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js';
+        s.onload = function(){
+          try {
+            new daum.roughmap.Lander({
+              "timestamp" : "1783520667669",
+              "key" : "qvcvvxuqfmz",
+              "mapWidth" : "460",
+              "mapHeight" : "300"
+            }).render();
+          } catch(e) { /* 지도 로드 실패 시 조용히 무시 */ }
+        };
+        document.currentScript.parentNode.appendChild(s);
+      })();
     </script>
   </div>
 
@@ -1138,18 +1164,20 @@ body { background: #FDF9F4; }
     <a href="https://map.naver.com/v5/search/소월로 302 용산구" target="_blank">네이버지도</a>
   </div>
 
-  <p style="font-size:14px;color:var(--ink-light);margin:18px 0 12px;line-height:1.8;">블라블라블라블라블라블라.</p>
+  <p style="font-size:14px;color:var(--ink);margin:18px 0 12px;line-height:1.8;">자차 이용 시 앨리스몽드 정문 앞으로 오시면<br>발렛요원이 주차를 도와드립니다.</p>
 
   <div class="transport-wrap">
     <div class="transport-item">
       <p class="tr-title">🚇 지하철</p>
-      <p class="tr-body">블라블라블라블라블라블라.</p>
+      <p class="tr-body"><b>녹사평역(6호선)</b> 4번 출구 – 용산03 버스 – 하얏트호텔 하차<br><b>한강진역(6호선)</b> 2번 출구 – 405 버스 – 하얏트호텔 하차</p>
     </div>
     <div class="transport-item">
       <p class="tr-title">🚌 버스</p>
-      <p class="tr-body">블라블라블라블라블라블라.</p>
+      <p class="tr-body"><b>간선 402, 405</b>: 하얏트호텔 또는 남산야외식물원입구 하차<br><b>마을버스 용산03</b>: 하얏트호텔 하차</p>
     </div>
   </div>
+
+  <p style="font-size:15px;color:var(--ink);margin:18px 0 4px;line-height:1.8;font-weight:600;">주차장이 협소하오니 가급적 대중교통 이용을 부탁드립니다.</p>
 </section>
 <div style="text-align:center;padding:8px 0;"><img src="divider.png" style="width:220px;opacity:.7;" alt=""></div>
 <!-- MY GALLERY -->
@@ -1280,8 +1308,8 @@ body { background: #FDF9F4; }
             <span class="contact-name">박동수</span>
           </div>
           <div class="contact-icons">
-            <a href="tel:01000000000" aria-label="전화"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
-            <a href="sms:01000000000" aria-label="문자"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></a>
+            <a href="tel:01020358489" aria-label="전화"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
+            <a href="sms:01020358489" aria-label="문자"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></a>
           </div>
         </div>
       </div>
@@ -1293,8 +1321,8 @@ body { background: #FDF9F4; }
             <span class="contact-name">김예지</span>
           </div>
           <div class="contact-icons">
-            <a href="tel:01000000000" aria-label="전화"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
-            <a href="sms:01000000000" aria-label="문자"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></a>
+            <a href="tel:01064092977" aria-label="전화"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
+            <a href="sms:01064092977" aria-label="문자"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></a>
           </div>
         </div>
         <div class="contact-person">
@@ -1303,8 +1331,8 @@ body { background: #FDF9F4; }
             <span class="contact-name">김경필</span>
           </div>
           <div class="contact-icons">
-            <a href="tel:01000000000" aria-label="전화"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
-            <a href="sms:01000000000" aria-label="문자"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></a>
+            <a href="tel:01036582989" aria-label="전화"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
+            <a href="sms:01036582989" aria-label="문자"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></a>
           </div>
         </div>
         <div class="contact-person">
@@ -1313,8 +1341,8 @@ body { background: #FDF9F4; }
             <span class="contact-name">최해숙</span>
           </div>
           <div class="contact-icons">
-            <a href="tel:01000000000" aria-label="전화"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
-            <a href="sms:01000000000" aria-label="문자"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></a>
+            <a href="tel:01092244800" aria-label="전화"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
+            <a href="sms:01092244800" aria-label="문자"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></a>
           </div>
         </div>
       </div>
@@ -1340,20 +1368,38 @@ body { background: #FDF9F4; }
         <p class="contact-col-title">신랑측</p>
         <div class="contact-person">
           <div class="contact-person-info">
-            <span class="contact-relation">○○은행</span>
-            <span class="contact-name">000-0000-0000</span>
-            <span class="contact-relation">동수</span>
+            <span class="contact-relation">우리은행</span>
+            <span class="contact-name acc-num" data-num="1002087848900">1002-087-848900</span>
+            <span class="contact-relation">박동수</span>
           </div>
+          <button class="acc-copy-btn" data-num="1002087848900">복사</button>
         </div>
       </div>
       <div class="contact-col">
         <p class="contact-col-title">신부측</p>
         <div class="contact-person">
           <div class="contact-person-info">
-            <span class="contact-relation">○○은행</span>
-            <span class="contact-name">000-0000-0000</span>
-            <span class="contact-relation">예지</span>
+            <span class="contact-relation">우리은행</span>
+            <span class="contact-name acc-num" data-num="1002550311802">1002-550-311802</span>
+            <span class="contact-relation">김예지</span>
           </div>
+          <button class="acc-copy-btn" data-num="1002550311802">복사</button>
+        </div>
+        <div class="contact-person">
+          <div class="contact-person-info">
+            <span class="contact-relation">농협은행</span>
+            <span class="contact-name acc-num" data-num="52707552075269">527075-52-075269</span>
+            <span class="contact-relation">김경필</span>
+          </div>
+          <button class="acc-copy-btn" data-num="52707552075269">복사</button>
+        </div>
+        <div class="contact-person">
+          <div class="contact-person-info">
+            <span class="contact-relation">전북은행</span>
+            <span class="contact-name acc-num" data-num="02002096697">020-02-0096697</span>
+            <span class="contact-relation">최해숙</span>
+          </div>
+          <button class="acc-copy-btn" data-num="02002096697">복사</button>
         </div>
       </div>
     </div>
@@ -1570,6 +1616,20 @@ body { background: #FDF9F4; }
   });
 
   // 계좌 모달
+  // 계좌번호 복사
+  document.querySelectorAll('.acc-copy-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var num = btn.dataset.num;
+      navigator.clipboard.writeText(num).then(function(){
+        var orig = btn.textContent;
+        btn.textContent = '복사됨!';
+        setTimeout(function(){ btn.textContent = orig; }, 1200);
+      }).catch(function(){
+        alert('계좌번호: ' + num);
+      });
+    });
+  });
+
   var accModal = document.getElementById('acc-modal');
   var accT = document.getElementById('acc-toggle');
   var accClose = document.getElementById('acc-modal-close');
@@ -1631,8 +1691,6 @@ body { background: #FDF9F4; }
   if (shareNative) shareNative.addEventListener('click', function(){
     if (navigator.share) {
       navigator.share({
-        title: '동수 ♥ 예지 결혼합니다',
-        text: '2026.11.01 앨리스몽드',
         url: location.href
       }).catch(function(){ /* 사용자가 취소한 경우 등 */ });
     } else {

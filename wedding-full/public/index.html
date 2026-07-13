@@ -1556,6 +1556,7 @@ body { background: #FDF9F4; }
     var tmp = new Image();
     tmp.onload = function(){
       mainImg.src = imgs[cur];
+      mainImg.style.objectFit = (tmp.naturalWidth > tmp.naturalHeight) ? 'contain' : 'cover';
       mainImg.style.opacity = '1';
     };
     tmp.src = imgs[cur];
@@ -1566,6 +1567,15 @@ body { background: #FDF9F4; }
       thumbs[cur].scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
     }
   }
+
+  // 첫 이미지(가로/세로 여부) 초기 반영
+  (function initFirstImg(){
+    var first = new Image();
+    first.onload = function(){
+      mainImg.style.objectFit = (first.naturalWidth > first.naturalHeight) ? 'contain' : 'cover';
+    };
+    first.src = imgs[0];
+  })();
 
   document.getElementById('gal-prev').addEventListener('click', function(){ goTo(cur - 1); });
   document.getElementById('gal-next').addEventListener('click', function(){ goTo(cur + 1); });

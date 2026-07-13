@@ -10,6 +10,8 @@
 <meta property="og:title" content="동수 ♥ 예지 결혼합니다">
 <meta property="og:description" content="2026.11.01 (일) 오후 1시 · 앨리스몽드 서울">
 <meta property="og:image" content="https://yeji-dongsoo-1101.netlify.app/og_image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:url" content="https://yeji-dongsoo-1101.netlify.app">
 <meta name="twitter:card" content="summary_large_image">
 
@@ -156,8 +158,12 @@ body { background: #deb8b8; color: var(--ink); font-family: var(--serif); font-w
   max-width: 270px;
   display: block;
   position: relative;
+  background: #fff;
+  padding: 10px 10px 32px;
+  box-shadow: 0 10px 28px rgba(0,0,0,.16);
+  transform: rotate(-1.5deg);
 }
-.hero-photo img { width: 100%; display: block; filter: drop-shadow(0 8px 20px rgba(0,0,0,.13)); }
+.hero-photo img { width: 100%; display: block; }
 .hero-photo span { font-size: 12px; color: var(--ink-light); letter-spacing: .1em; }
 .hero-sub {
   margin-top: 28px;
@@ -230,8 +236,9 @@ body { background: #deb8b8; color: var(--ink); font-family: var(--serif); font-w
 .pol-item:nth-child(2n) .pol-card { transform: rotate(2deg); }
 .pol-card img {
   width: 100%;
-  aspect-ratio: 3/4;
+  aspect-ratio: 1/1;
   object-fit: cover;
+  object-position: center 25%;
   display: block;
 }
 .pol-nav {
@@ -659,7 +666,8 @@ button:active:not(:disabled),
 .gb-list {
   column-count: 2;
   column-gap: 20px;
-  padding: 12px 4px 24px;
+  column-fill: balance;
+  padding: 28px 4px 24px;
 }
 .gb-empty { column-span: all; font-size: 14px; color: var(--ink-light); text-align: center; padding: 30px 0; }
 
@@ -668,12 +676,13 @@ button:active:not(:disabled),
   padding: 28px 16px 20px;
   border-radius: 2px;
   box-shadow: 2px 4px 12px rgba(0,0,0,.10), 0 1px 3px rgba(0,0,0,.07);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
   break-inside: avoid;
   -webkit-column-break-inside: avoid;
-  margin-bottom: 20px;
+  page-break-inside: avoid;
+  margin: 16px 0 20px;
+  display: inline-block;
+  width: 100%;
+  vertical-align: top;
 }
 /* 파스텔 4색 랜덤 */
 .gb-item[data-color="0"] { background: #FFF9E6; }
@@ -711,9 +720,9 @@ button:active:not(:disabled),
   transform: translateX(-50%) rotate(-1deg);
 }
 
-.gb-item .nm { font-size: 14px; font-weight: 600; color: var(--ink); }
-.gb-item .ms { font-size: 13px; color: #444; line-height: 1.75; flex: 1; word-break: break-all; }
-.gb-item .dt { font-size: 10px; color: #aaa; }
+.gb-item .nm { font-size: 14px; font-weight: 600; color: var(--ink); display: block; margin-bottom: 8px; }
+.gb-item .ms { font-size: 13px; color: #444; line-height: 1.75; word-break: break-all; display: block; margin-bottom: 8px; }
+.gb-item .dt { font-size: 10px; color: #aaa; display: block; }
 .gb-item .gb-del { position: absolute; top: 8px; right: 10px; background: none; border: none; color: #bbb; font-size: 13px; cursor: pointer; }
 
 /* ── ACCOUNT ── */
@@ -868,6 +877,7 @@ footer .ft-red { color: var(--red); }
 .transport-item { flex: 1; background: var(--paper); border-radius: 12px; padding: 16px; }
 .tr-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
 .tr-body  { font-size: 13px; color: var(--ink-light); line-height: 1.7; min-height: 40px; }
+.tr-body b { font-weight: 700; color: var(--ink); }
 
 /* RSVP */
 .rsvp-toggle { display: flex; gap: 10px; margin-bottom: 18px; }
@@ -1139,24 +1149,14 @@ body { background: #FDF9F4; }
 
   <div style="border-radius:12px;overflow:hidden;margin:14px 0 10px;">
     <div id="daumRoughmapContainer1783520667669" class="root_daum_roughmap root_daum_roughmap_landing"></div>
-    <script>
-      (function(){
-        var s = document.createElement('script');
-        s.charset = 'UTF-8';
-        s.className = 'daum_roughmap_loader_script';
-        s.src = 'https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js';
-        s.onload = function(){
-          try {
-            new daum.roughmap.Lander({
-              "timestamp" : "1783520667669",
-              "key" : "qvcvvxuqfmz",
-              "mapWidth" : "460",
-              "mapHeight" : "300"
-            }).render();
-          } catch(e) { /* 지도 로드 실패 시 조용히 무시 */ }
-        };
-        document.currentScript.parentNode.appendChild(s);
-      })();
+    <script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
+    <script charset="UTF-8">
+      new daum.roughmap.Lander({
+        "timestamp" : "1783520667669",
+        "key" : "qvcvvxuqfmz",
+        "mapWidth" : "460",
+        "mapHeight" : "300"
+      }).render();
     </script>
   </div>
 
@@ -1177,7 +1177,7 @@ body { background: #FDF9F4; }
     </div>
   </div>
 
-  <p style="font-size:15px;color:var(--ink);margin:18px 0 4px;line-height:1.8;font-weight:600;">주차장이 협소하오니 가급적 대중교통 이용을 부탁드립니다.</p>
+  <p style="font-size:15px;color:var(--ink);margin:18px 0 4px;line-height:1.8;font-weight:600;">주차장이 협소하오니<br>가급적 대중교통 이용을 부탁드립니다.</p>
 </section>
 <div style="text-align:center;padding:8px 0;"><img src="divider.png" style="width:220px;opacity:.7;" alt=""></div>
 <!-- MY GALLERY -->

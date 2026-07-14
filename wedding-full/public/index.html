@@ -800,12 +800,6 @@ footer .ft-red { color: var(--red); }
   .upload-area { padding-left: 22px !important; padding-right: 22px !important; }
 }
 
-/* 데스크탑/태블릿: 가운데 청첩장 카드처럼 */
-@media (min-width: 461px) {
-  body { background: #ECE8E1; }
-  .wrap { background: var(--white); min-height: 100vh; box-shadow: 0 0 80px rgba(0,0,0,.06); }
-}
-
 /* 움직임 최소화 설정 존중 */
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
@@ -1277,7 +1271,7 @@ body { background: #FDF9F4; }
 <section class="sec reveal" style="padding-left:0;padding-right:0;overflow:hidden;">
   <div style="padding:0 32px;">
     <p class="sec-label">polaroid</p>
-    <h2 class="sec-title">우리의 순간들</h2>
+    <h2 class="sec-title">Polaroid</h2>
   </div>
   <div id="pol-slider">
     <div class="pol-page active" id="pol-page-0">
@@ -1793,16 +1787,9 @@ body { background: #FDF9F4; }
   });
 
   var polImgs = [
-    'gallery/g01.jpg','gallery/g02.jpg','gallery/g03.jpg',
-    'gallery/g04.jpg','gallery/g05.jpg','gallery/g06.jpg',
-    'gallery/g07.jpg','gallery/g08.jpg','gallery/g09.jpg',
-    'gallery/g10.jpg','gallery/g11.jpg','gallery/g12.jpg',
-    'gallery/g13.jpg','gallery/g14.jpg','gallery/g15.jpg',
-    'gallery/g16.jpg','gallery/g17.jpg','gallery/g18.jpg',
-    'gallery/g19.jpg','gallery/g20.jpg','gallery/g21.jpg',
-    'gallery/g22.jpg','gallery/g23.jpg','gallery/g24.jpg',
-    'gallery/g25.jpg','gallery/g26.jpg','gallery/g27.jpg',
-    'gallery/g28.jpg','gallery/g29.jpg','gallery/g30.jpg'
+    'polaroid/p01.jpg','polaroid/p02.jpg','polaroid/p03.jpg',
+    'polaroid/p04.jpg','polaroid/p05.jpg','polaroid/p06.jpg',
+    'polaroid/p07.jpg','polaroid/p08.jpg','polaroid/p09.jpg'
   ];
   var modal = document.getElementById('my-gallery-modal');
   var mgImg = document.getElementById('mg-img');

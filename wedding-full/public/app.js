@@ -117,36 +117,70 @@ function openModal(url, name){
 function closeModal(){ $('#photo-modal').classList.remove('open'); $('#modal-img').src=''; }
 
 /* ---------- 방명록 ---------- */
+const GB_PAGE_SIZE = 8;
+let gbEntries = [];
+let gbPage = 1;
+
 async function loadGuestbook(){
   const list = $('#gb-list');
   try {
     const r = await fetch(`${API}/guestbook`);
     const { entries } = await r.json();
-    if (!entries || !entries.length){
-      list.innerHTML = '<div class="gb-empty">첫 번째 축하를 남겨주세요 🥳</div>';
-      return;
-    }
-    // 스티커 종류: 일자 테이프, 하트, 별 빈티지 믹스
-    const stickers = ['tape','🩷','⭐','tape','🤍','⭐','tape','🩷','⭐','🤍'];
-    list.innerHTML = entries.map((e, i) => {
-      const color = i % 4;
-      const tilt  = i % 5;
-      const sticker = stickers[i % stickers.length];
-      return `
-      <div class="gb-item" data-id="${e.id}" data-color="${color}" data-tilt="${tilt}" data-sticker="${sticker}">
-        <button class="gb-del" title="삭제">✕</button>
-        <span class="nm">${esc(e.name)}</span>
-        <div class="ms">${esc(e.message)}</div>
-        <div class="dt">${fmtDate(e.created_at)}</div>
-      </div>`;
-    }).join('');
-    list.querySelectorAll('.gb-del').forEach(b => b.addEventListener('click', (ev) => {
-      const id = ev.target.closest('.gb-item').dataset.id;
-      askDelete(id);
-    }));
+    gbEntries = entries || [];
+    gbPage = 1;
+    renderGuestbookPage();
   } catch (e) {
     list.innerHTML = '<div class="gb-empty">불러오지 못했어요 😢</div>';
+    $('#gb-pagenav').style.display = 'none';
   }
+}
+
+function renderGuestbookPage(){
+  const list = $('#gb-list');
+  const nav = $('#gb-pagenav');
+
+  if (!gbEntries.length){
+    list.innerHTML = '<div class="gb-empty">첫 번째 축하를 남겨주세요 🥳</div>';
+    nav.style.display = 'none';
+    return;
+  }
+
+  const totalPages = Math.max(1, Math.ceil(gbEntries.length / GB_PAGE_SIZE));
+  if (gbPage > totalPages) gbPage = totalPages;
+  const start = (gbPage - 1) * GB_PAGE_SIZE;
+  const pageEntries = gbEntries.slice(start, start + GB_PAGE_SIZE);
+
+  // 스티커 종류: 일자 테이프, 하트, 별 빈티지 믹스
+  const stickers = ['tape','🩷','⭐','tape','🤍','⭐','tape','🩷','⭐','🤍'];
+  list.innerHTML = pageEntries.map((e, i) => {
+    const globalIdx = start + i;
+    const color = globalIdx % 4;
+    const tilt  = globalIdx % 5;
+    const sticker = stickers[globalIdx % stickers.length];
+    return `
+    <div class="gb-item" data-id="${e.id}" data-color="${color}" data-tilt="${tilt}" data-sticker="${sticker}">
+      <button class="gb-del" title="삭제">✕</button>
+      <span class="nm">${esc(e.name)}</span>
+      <div class="ms">${esc(e.message)}</div>
+      <div class="dt">${fmtDate(e.created_at)}</div>
+    </div>`;
+  }).join('');
+  list.querySelectorAll('.gb-del').forEach(b => b.addEventListener('click', (ev) => {
+    const id = ev.target.closest('.gb-item').dataset.id;
+    askDelete(id);
+  }));
+
+  if (totalPages > 1){
+    nav.style.display = 'flex';
+    $('#gb-pagecount').textContent = `${gbPage} / ${totalPages}`;
+    $('#gb-prev').disabled = gbPage <= 1;
+    $('#gb-next').disabled = gbPage >= totalPages;
+  } else {
+    nav.style.display = 'none';
+  }
+
+  // 페이지 넘길 때 방명록 섹션 상단으로 살짝 스크롤
+  list.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 async function askDelete(id){
   const pw = prompt('작성하실 때 입력한 비밀번호를 넣어주세요');
@@ -223,23 +257,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const name = $('#rsvp-name').value.trim();
     const count = parseInt($('#rsvp-count-input').value, 10) || 1;
     const memo = $('#rsvp-memo').value.trim();
-    const side = document.querySelector('.rsvp-side-btn.active')?.dataset.side;
-    const meal = document.querySelector('.rsvp-meal-btn.active')?.dataset.meal;
     if (!name){ toast('성함을 입력해주세요'); return; }
-    if (!side){ toast('신랑측 / 신부측을 선택해주세요'); return; }
-    if (!meal){ toast('식사 여부를 선택해주세요'); return; }
     const btn = $('#rsvp-submit');
     btn.disabled = true;
     try {
       const r = await fetch(`${API}/rsvp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, count, memo, side, meal }),
+        body: JSON.stringify({ name, count, memo }),
       });
       if (r.ok){
         toast(`${name}님 감사합니다! 🤍`);
         $('#rsvp-name').value=''; $('#rsvp-memo').value=''; $('#rsvp-count-input').value='1';
-        document.querySelectorAll('.rsvp-side-btn.active, .rsvp-meal-btn.active').forEach(b => b.classList.remove('active'));
       } else {
         const { error } = await r.json().catch(()=>({}));
         toast(error || '전송 실패');
@@ -253,6 +282,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // 모달 닫기
   $('#modal-close').addEventListener('click', closeModal);
   $('#photo-modal').addEventListener('click', (e) => { if (e.target.id === 'photo-modal') closeModal(); });
+
+  // 방명록 페이지 넘김
+  $('#gb-prev').addEventListener('click', () => { if (gbPage > 1){ gbPage--; renderGuestbookPage(); } });
+  $('#gb-next').addEventListener('click', () => {
+    const totalPages = Math.max(1, Math.ceil(gbEntries.length / GB_PAGE_SIZE));
+    if (gbPage < totalPages){ gbPage++; renderGuestbookPage(); }
+  });
 
   // 첫 로드
   loadGallery();

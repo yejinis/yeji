@@ -135,7 +135,7 @@ async function loadGuestbook(){
   }
 }
 
-function renderGuestbookPage(){
+function renderGuestbookPage(isPageNav){
   const list = $('#gb-list');
   const nav = $('#gb-pagenav');
 
@@ -179,8 +179,10 @@ function renderGuestbookPage(){
     nav.style.display = 'none';
   }
 
-  // 페이지 넘길 때 방명록 섹션 상단으로 살짝 스크롤
-  list.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  // 페이지 버튼을 직접 눌렀을 때만 방명록 섹션으로 살짝 스크롤 (최초 로드 시에는 스크롤하지 않음)
+  if (isPageNav) {
+    list.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
 }
 async function askDelete(id){
   const pw = prompt('작성하실 때 입력한 비밀번호를 넣어주세요');
@@ -284,10 +286,10 @@ document.addEventListener('DOMContentLoaded', () => {
   $('#photo-modal').addEventListener('click', (e) => { if (e.target.id === 'photo-modal') closeModal(); });
 
   // 방명록 페이지 넘김
-  $('#gb-prev').addEventListener('click', () => { if (gbPage > 1){ gbPage--; renderGuestbookPage(); } });
+  $('#gb-prev').addEventListener('click', () => { if (gbPage > 1){ gbPage--; renderGuestbookPage(true); } });
   $('#gb-next').addEventListener('click', () => {
     const totalPages = Math.max(1, Math.ceil(gbEntries.length / GB_PAGE_SIZE));
-    if (gbPage < totalPages){ gbPage++; renderGuestbookPage(); }
+    if (gbPage < totalPages){ gbPage++; renderGuestbookPage(true); }
   });
 
   // 첫 로드

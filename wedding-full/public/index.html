@@ -229,15 +229,6 @@ body { background: #deb8b8; color: var(--ink); font-family: var(--serif); font-w
   line-height: 1.6;
   text-align: center;
 }
-.hero-date .hero-time {
-  font-size: 15px;
-  font-weight: 300;
-  letter-spacing: .06em;
-  color: var(--ink);
-  line-height: 1.4;
-  text-align: center;
-  margin-top: -2px;
-}
 
 /* ── POLAROID ── */
 #pol-slider { position: relative; overflow: hidden; }
@@ -1152,7 +1143,6 @@ body { background: #FDF9F4; }
   </h1>
   <div class="hero-date">
     <div class="date-time">2026.11.01</div>
-    <div class="hero-time">1:00 PM</div>
   </div>
   <div class="scroll-indicator">
     <span>SCROLL</span>
@@ -1243,6 +1233,15 @@ body { background: #FDF9F4; }
   </div>
 
   <p style="font-size:14px;color:var(--ink);margin:18px 0 12px;line-height:1.8;">자차 이용 시 앨리스몽드 정문 앞으로 오시면<br>발렛요원이 주차를 도와드립니다.</p>
+
+  <!-- 셔틀버스 안내 -->
+  <div style="border-top:1px solid rgba(0,0,0,.12);margin:18px 0 0;"></div>
+  <div style="padding:18px 0;">
+    <p style="font-size:15px;color:var(--ink);margin:0 0 8px;line-height:1.8;font-weight:600;">🚐 셔틀버스</p>
+    <p style="font-size:14px;color:var(--ink);margin:0 0 14px;line-height:1.8;">예식 당일 녹사평역 2번 출구에서<br>앨리스몽드까지 셔틀버스를 운행합니다.</p>
+    <button type="button" id="shuttle-open" style="font-family:inherit;font-size:13px;color:var(--ink);background:transparent;border:1px solid rgba(0,0,0,.25);border-radius:999px;padding:9px 18px;cursor:pointer;">셔틀버스 정보 자세히 보기</button>
+  </div>
+  <div style="border-bottom:1px solid rgba(0,0,0,.12);"></div>
 
   <div class="transport-wrap">
     <div class="transport-item">
@@ -1932,5 +1931,46 @@ function mgNext(){
 })();
 </script>
 <script src="app.js"></script>
+
+<!-- 셔틀버스 팝업 -->
+<div id="shuttle-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.5);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#fff;border-radius:14px;max-width:360px;width:100%;max-height:82vh;overflow-y:auto;padding:26px 22px;text-align:center;">
+    <p style="font-size:16px;font-weight:700;margin:0 0 16px;color:var(--ink);">🚐 셔틀버스 안내</p>
+
+    <div style="text-align:left;font-size:14px;line-height:1.8;color:var(--ink);">
+      <p style="margin:0 0 2px;font-weight:600;">📍 탑승 장소</p>
+      <p style="margin:0 0 14px;">녹사평역 2번 출구 앞 (하단 이미지 참고)</p>
+
+      <p style="margin:0 0 2px;font-weight:600;">🕒 운행 시간</p>
+      <p style="margin:0 0 14px;">11:50 ~ 12:50 (총 4회 운행)</p>
+
+      <p style="margin:0 0 2px;font-weight:600;">⏱️ 배차 간격</p>
+      <p style="margin:0 0 14px;">약 15분</p>
+
+      <p style="margin:0 0 2px;font-weight:600;">🚌 차량 번호</p>
+      <p style="margin:0 0 14px;">2569</p>
+
+      <p style="margin:0 0 18px;font-size:13px;color:#7a7168;line-height:1.7;">※ 버스가 상시 대기하고 있지 않습니다.<br>도착 후 잠시 기다려 주시면 순차적으로 운행됩니다.</p>
+    </div>
+
+    <div style="text-align:left;">
+      <p style="font-size:13px;line-height:1.7;color:var(--ink);margin:0 0 8px;">① 녹사평역 2번 출구로 나와 주세요.</p>
+      <img src="shuttle1.jpg" alt="녹사평역 2번 출구 안내 사진" loading="lazy" style="width:100%;border-radius:10px;display:block;margin:0 0 16px;">
+      <p style="font-size:13px;line-height:1.7;color:var(--ink);margin:0 0 8px;">② 출구 앞 해당 위치에서 셔틀버스를 탑승하실 수 있습니다.</p>
+      <img src="shuttle2.jpg" alt="셔틀버스 탑승 위치 안내 사진" loading="lazy" style="width:100%;border-radius:10px;display:block;margin:0 0 20px;">
+    </div>
+
+    <button type="button" id="shuttle-close" style="font-family:inherit;font-size:14px;background:var(--ink,#333);color:#fff;border:0;border-radius:999px;padding:10px 24px;cursor:pointer;">닫기</button>
+  </div>
+</div>
+<script>
+(function(){
+  var m=document.getElementById('shuttle-modal'),o=document.getElementById('shuttle-open'),c=document.getElementById('shuttle-close');
+  if(!m||!o)return;
+  o.addEventListener('click',function(){m.style.display='flex';});
+  c.addEventListener('click',function(){m.style.display='none';});
+  m.addEventListener('click',function(e){if(e.target===m)m.style.display='none';});
+})();
+</script>
 </body>
 </html>

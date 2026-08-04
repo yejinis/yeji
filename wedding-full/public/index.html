@@ -171,7 +171,7 @@ body { background: #deb8b8; color: var(--ink); font-family: var(--serif); font-w
   color: var(--ink-light);
 }
 .hero-photo {
-  margin: 30px auto 4px;
+  margin: 24px auto 4px;
   width: 90%;
   max-width: 330px;
   display: block;
@@ -207,7 +207,7 @@ body { background: #deb8b8; color: var(--ink); font-family: var(--serif); font-w
 .hero-names .name-dongsoo { display: inline; }
 .hero-date {
   margin-top: 16px;
-  padding: 12px 0 44px;
+  padding: 12px 0 26px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -522,13 +522,12 @@ button:active:not(:disabled),
   margin-bottom: 6px;
 }
 .sec-title {
-  font-size: clamp(32px, 8vw, 44px);
-  font-weight: 700;
+  font-size: clamp(28px, 7.2vw, 38px);
+  font-weight: 600;
   font-family: 'SUIT', 'Casquare', sans-serif;
-  line-height: 1.15;
-  margin-bottom: 36px;
-
-  margin-bottom: 16px;
+  line-height: 1.25;
+  letter-spacing: -.015em;
+  margin-bottom: 18px;
 }
 .divider { border: none; border-top: 1px solid #e8e4de; margin: 0; }
 
@@ -582,7 +581,7 @@ button:active:not(:disabled),
 .field input::placeholder { color: var(--ink-light); text-align: center; }
 .file-row { display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 20px 0; }
 .file-btn {
-  font-family: var(--hand);
+  font-family: var(--serif);
   font-size: 15px;
   padding: 10px 20px;
   border: 1px solid var(--red);
@@ -603,15 +602,15 @@ button:active:not(:disabled),
   font-size: 16px;
   letter-spacing: .05em;
   padding: 16px;
-  background: transparent;
-  color: var(--red);
+  background: var(--red);
+  color: #fff;
   border: 1px solid var(--red);
   border-radius: 6px;
   cursor: pointer;
-  transition: background .2s, color .2s;
+  transition: filter .2s;
 }
 .up-submit:disabled { opacity: .5; }
-.up-submit:not(:disabled):active { background: var(--red); }
+.up-submit:not(:disabled):active { filter: brightness(.9); }
 .up-hint { font-size: 11px; color: var(--ink-light); text-align: center; margin-top: 10px; letter-spacing: .04em; }
 
 /* ── INFO ── */
@@ -625,21 +624,22 @@ button:active:not(:disabled),
 .info-block .where { font-size: 15px; color: var(--ink-mid); line-height: 1.8; }
 .info-block .where b { color: var(--ink); font-weight: 400; display: block; font-size: 18px; margin-bottom: 2px; }
 .map-ph { height: 200px; background: var(--paper); display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--ink-light); letter-spacing: .08em; margin: 24px 0 16px; }
-.map-btns { display: flex; gap: 8px; }
+.map-btns { display: flex; gap: 8px; max-width: 86%; margin: 0 auto; }
 .map-btns a {
   flex: 1;
   text-decoration: none;
-  padding: 13px;
+  padding: 11px;
   text-align: center;
   font-family: var(--serif);
-  font-size: 14px;
+  font-size: 13.5px;
   letter-spacing: .06em;
-  border: 1px solid transparent;
+  border: 0;
+  border-radius: 6px;
   transition: opacity .2s;
 }
 .map-btns a:active { opacity: .8; }
-.map-btns a.btn-kakao { background: #FEE500; color: #3C1E1E; border-radius: 6px; }
-.map-btns a.btn-naver { background: #03C75A; color: #fff; border-radius: 6px; }
+.map-btns a.btn-kakao { background: #FEE500; color: #3C1E1E; }
+.map-btns a.btn-naver { background: #03C75A; color: #fff; }
 .dday-row { margin-top: 36px; text-align: center; }
 .dday-row .num {
   font-size: clamp(48px, 13vw, 64px);
@@ -680,15 +680,15 @@ button:active:not(:disabled),
   font-size: 16px;
   letter-spacing: .05em;
   padding: 16px;
-  background: transparent;
-  color: var(--red);
+  background: var(--red);
+  color: #fff;
   border: 1px solid var(--red);
   border-radius: 6px;
   cursor: pointer;
   margin-top: 8px;
-  transition: background .2s, color .2s;
+  transition: filter .2s;
 }
-.gb-submit:active { background: var(--red); color: var(--white); }
+.gb-submit:active { filter: brightness(.9); }
 /* 포스트잇 방명록 — 메이슨리 (2열) */
 .gb-list {
   display: grid;
@@ -725,11 +725,11 @@ button:active:not(:disabled),
   justify-self: center;
   box-sizing: border-box;
 }
-/* 파스텔 4색 랜덤 */
-.gb-item[data-color="0"] { background: #FFF9E6; }
-.gb-item[data-color="1"] { background: #FFE8F0; }
-.gb-item[data-color="2"] { background: #E3EEF8; }
-.gb-item[data-color="3"] { background: #E4F2E4; }
+/* 파스텔 4색 랜덤 — 채도 -30% (크림·더스티핑크·연블루·세이지) */
+.gb-item[data-color="0"] { background: #FAF6EC; }
+.gb-item[data-color="1"] { background: #F4EAEE; }
+.gb-item[data-color="2"] { background: #E9EFF4; }
+.gb-item[data-color="3"] { background: #EAF0E9; }
 
 /* 기울기 랜덤 */
 .gb-item[data-tilt="0"] { transform: rotate(-2.2deg); }
@@ -783,6 +783,8 @@ button:active:not(:disabled),
   transition: background .2s, color .2s;
 }
 .acc-toggle:active { background: var(--red); color: #fff; }
+.btn-row { display: flex; gap: 10px; }
+.btn-row .acc-toggle { flex: 1; font-size: 15px; padding: 15px 4px; letter-spacing: .02em; word-break: keep-all; }
 .acc-box { max-height: 0; overflow: hidden; transition: max-height .4s ease; }
 .acc-box.open { max-height: 200px; }
 .acc-row { padding: 16px 0; border-bottom: 1px solid #e8e4de; font-size: 15px; }
@@ -803,15 +805,18 @@ footer .ft-red { color: var(--red); }
   justify-content: center;
   gap: 6px;
   padding: 13px 0;
-  border: none;
-  border-radius: 8px;
+  border: 1px solid transparent;
+  border-radius: 6px;
   font-family: 'SUIT', sans-serif;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
+  transition: background .2s, color .2s;
 }
-.share-btn.kakao { background: #FEE500; color: #3C1E1E; }
-.share-btn.copy { background: var(--ink); color: #fff; }
+.share-btn.kakao { background: transparent; color: var(--red); border-color: var(--red); }
+.share-btn.kakao:active { background: var(--red); color: #fff; }
+.share-btn.copy { background: transparent; color: var(--red); border-color: var(--red); }
+.share-btn.copy:active { background: var(--red); color: #fff; }
 
 /* ── MODAL ── */
 .modal { position: fixed; inset: 0; background: rgba(10,8,6,.92); display: none; align-items: center; justify-content: center; z-index: 100; padding: 24px; }
@@ -915,6 +920,44 @@ footer .ft-red { color: var(--red); }
 .tr-body  { font-size: 13px; color: var(--ink); line-height: 1.7; }
 .tr-body b { font-weight: 700; color: var(--ink); }
 
+/* 셔틀버스 강조 카드 */
+.shuttle-card {
+  position: relative;
+  margin: 22px 0 4px;
+  padding: 22px 20px 24px;
+  border-radius: 14px;
+  background: rgba(110,135,168,.07);
+  border: 1px solid rgba(110,135,168,.28);
+  text-align: center;
+}
+.shuttle-card .sc-title {
+  font-size: 17px; font-weight: 700; color: var(--red);
+  letter-spacing: -.02em; margin: 0 0 8px; line-height: 1.5;
+}
+.shuttle-card .sc-body { font-size: 14px; color: var(--ink); line-height: 1.85; margin: 0 0 18px; }
+.shuttle-card .sc-body b { font-weight: 700; color: var(--ink); }
+.shuttle-card .sc-btn {
+  font-family: 'SUIT', sans-serif; font-size: 14px; font-weight: 600;
+  color: #fff; background: var(--red);
+  border: none; border-radius: 6px;
+  padding: 12px 26px; cursor: pointer;
+  transition: opacity .2s;
+}
+.shuttle-card .sc-btn:active { opacity: .75; }
+
+/* 지하철·버스: 카드 제거 -> 구분선 리스트 */
+.way-list { margin-top: 26px; text-align: left; }
+.way-row { padding: 18px 2px; border-top: 1px solid #e3ddd3; }
+.way-row:last-child { border-bottom: 1px solid #e3ddd3; }
+.way-ico { font-size: 11px; opacity: .55; margin-right: 6px; filter: grayscale(.25); }
+.way-label {
+  font-size: 12px; font-weight: 600; letter-spacing: .1em;
+  color: var(--ink-light); text-transform: uppercase;
+  margin: 0 0 8px;
+}
+.way-text { font-size: 14px; color: var(--ink-mid); line-height: 1.95; margin: 0; }
+.way-text b { color: var(--ink); font-weight: 600; }
+
 /* RSVP */
 .rsvp-toggle { display: flex; gap: 10px; margin-bottom: 18px; }
 .rsvp-toggle button { flex: 1; padding: 14px; border-radius: 6px; font-family: 'SUIT', sans-serif; font-size: 16px; cursor: pointer; border: 1px solid var(--red); background: transparent; color: var(--red); transition: .2s; }
@@ -954,7 +997,8 @@ footer .ft-red { color: var(--red); }
   transition: background .2s, color .2s;
 }
 .rsvp-meal-btn.active { background: var(--red); color: #fff; }
-.rsvp-submit { width: 100%; padding: 15px; background: transparent; color: var(--red); border: 1px solid var(--red); border-radius: 6px; font-family: 'SUIT', sans-serif; font-size: 17px; cursor: pointer; margin-top: 6px; }
+.rsvp-submit { width: 100%; padding: 15px; background: var(--red); color: #fff; border: 1px solid var(--red); border-radius: 6px; font-family: 'SUIT', sans-serif; font-size: 17px; cursor: pointer; margin-top: 6px; }
+.rsvp-submit:active { filter: brightness(.9); }
 .rsvp-msg { font-size: 13px; color: var(--ink-light); text-align: center; margin: 14px 0 0; line-height: 1.7; }
 
 
@@ -1234,23 +1278,21 @@ body { background: #FDF9F4; }
 
   <p style="font-size:14px;color:var(--ink);margin:18px 0 12px;line-height:1.8;">자차 이용 시 앨리스몽드 정문 앞으로 오시면<br>발렛요원이 주차를 도와드립니다.</p>
 
-  <!-- 셔틀버스 안내 -->
-  <div style="border-top:1px solid rgba(0,0,0,.12);margin:18px 0 0;"></div>
-  <div style="padding:18px 0;">
-    <p style="font-size:15px;color:var(--ink);margin:0 0 8px;line-height:1.8;font-weight:600;">🚐 셔틀버스</p>
-    <p style="font-size:14px;color:var(--ink);margin:0 0 14px;line-height:1.8;">예식 당일 녹사평역 2번 출구에서<br>앨리스몽드까지 셔틀버스를 운행합니다.</p>
-    <button type="button" id="shuttle-open" style="font-family:inherit;font-size:13px;color:var(--ink);background:transparent;border:1px solid rgba(0,0,0,.25);border-radius:999px;padding:9px 18px;cursor:pointer;">셔틀버스 정보 자세히 보기</button>
+  <!-- 셔틀버스 (강조) -->
+  <div class="shuttle-card">
+    <p class="sc-title">🚐 셔틀버스 운행 안내</p>
+    <p class="sc-body">예식 당일 <b>녹사평역 2번 출구</b>에서<br>앨리스몽드까지 셔틀버스를 운행합니다.</p>
+    <button type="button" id="shuttle-open" class="sc-btn">셔틀버스 정보 자세히 보기</button>
   </div>
-  <div style="border-bottom:1px solid rgba(0,0,0,.12);"></div>
 
-  <div class="transport-wrap">
-    <div class="transport-item">
-      <p class="tr-title">🚇 지하철</p>
-      <p class="tr-body"><b>녹사평역(6호선)</b> 4번 출구 – 용산03 버스 – 하얏트호텔 하차<br><b>한강진역(6호선)</b> 2번 출구 – 405 버스 – 하얏트호텔 하차</p>
+  <div class="way-list">
+    <div class="way-row">
+      <p class="way-label"><span class="way-ico">🚇</span>지하철</p>
+      <p class="way-text"><b>녹사평역(6호선)</b> 4번 출구 – 용산03 버스 – 하얏트호텔 하차<br><b>한강진역(6호선)</b> 2번 출구 – 405 버스 – 하얏트호텔 하차</p>
     </div>
-    <div class="transport-item">
-      <p class="tr-title">🚌 버스</p>
-      <p class="tr-body"><b>간선 402, 405</b>: 하얏트호텔 또는 남산야외식물원입구 하차<br><b>마을버스 용산03</b>: 하얏트호텔 하차</p>
+    <div class="way-row">
+      <p class="way-label"><span class="way-ico">🚌</span>버스</p>
+      <p class="way-text"><b>간선 402, 405</b> 하얏트호텔 또는 남산야외식물원입구 하차<br><b>마을버스 용산03</b> 하얏트호텔 하차</p>
     </div>
   </div>
 
@@ -1311,7 +1353,6 @@ body { background: #FDF9F4; }
     <div class="gal-thumb" data-idx="32"><img src="gallery/g33.jpg" alt=""></div>
   </div>
 </section>
-<div style="text-align:center;padding:8px 0;"><img src="divider.png" style="width:220px;opacity:.7;" alt=""></div>
 
 <!-- POLAROID -->
 <section class="sec reveal" style="padding-left:0;padding-right:0;overflow:hidden;">
@@ -1419,12 +1460,14 @@ body { background: #FDF9F4; }
     <button id="gb-next" aria-label="다음">›</button>
   </div>
 </section>
-<div style="text-align:center;padding:8px 0;"><img src="divider.png" style="width:220px;opacity:.7;" alt=""></div>
 <!-- CONTACT -->
 <section class="sec reveal">
-  <p class="sec-label">contact</p>
-  <h2 class="sec-title">연락처</h2>
-  <button class="acc-toggle" id="contact-toggle">연락하기</button>
+  <p class="sec-label">contact &amp; with love</p>
+  <h2 class="sec-title">연락처와 마음 전하실 곳</h2>
+  <div class="btn-row">
+    <button class="acc-toggle" id="contact-toggle">연락하기</button>
+    <button class="acc-toggle" id="acc-toggle">계좌번호 보기</button>
+  </div>
 </section>
 
 <!-- CONTACT MODAL -->
@@ -1485,14 +1528,7 @@ body { background: #FDF9F4; }
   </div>
 </div>
 
-<div style="text-align:center;padding:8px 0;"><img src="divider.png" style="width:220px;opacity:.7;" alt=""></div>
 <!-- ACCOUNT -->
-<section class="sec reveal">
-  <p class="sec-label">with love</p>
-  <h2 class="sec-title">마음 전하실 곳</h2>
-  <button class="acc-toggle" id="acc-toggle">계좌번호 보기</button>
-</section>
-
 <!-- ACCOUNT MODAL -->
 <div id="acc-modal" class="contact-modal-overlay">
   <div class="contact-modal">
@@ -1538,7 +1574,6 @@ body { background: #FDF9F4; }
     </div>
   </div>
 </div>
-<div style="text-align:center;padding:8px 0;"><img src="divider.png" style="width:220px;opacity:.7;" alt=""></div>
 <!-- UPLOAD GALLERY -->
 <section class="sec reveal" style="padding-left:0;padding-right:0;">
   <div style="padding:0 32px;">
